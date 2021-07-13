@@ -31,9 +31,20 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/vendor/fonts/circular-std/style.css",
+              "src/assets/libs/css/style.css",
+              "src/assets/vendor/fonts/fontawesome/css/fontawesome-all.css",
+              "src/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css",
+              "src/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/vendor/jquery/jquery-3.3.1.min.js",
+              "src/assets/vendor/bootstrap/js/bootstrap.bundle.js",
+              "src/assets/libs/js/main-js.js",
+              "src/assets/libs/js/dashboard-ecommerce.js"
+            ]
           },
           "configurations": {
             "production": {

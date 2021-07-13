@@ -1,9 +1,9 @@
 {
-  "name": "frontend",
+  "name": "ouattara",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --open --live-reload=false --port=4400",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
