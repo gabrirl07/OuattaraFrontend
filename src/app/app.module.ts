@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import {SharedModule} from './shared/shared.module';
 import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { LoginComponent } from './views/authentication/login/login.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -13,11 +15,13 @@ import { LoginComponent } from './views/authentication/login/login.component';
     DashboardComponent,
     LoginComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        SharedModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

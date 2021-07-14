@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from './views/authentication/login/login.component';
 import {DashboardComponent} from './views/dashboard/dashboard.component';
+import {AuthGuard} from "./guards/auth/auth.guard";
 
 const routes: Routes = [
   {
@@ -17,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    data : {title : 'login'},
+    data : {title : 'dashboard'},
+    canActivate: [AuthGuard],
     component: DashboardComponent
   },
 ];
