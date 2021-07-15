@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../../services/auth/authentication.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {LoginErrors, User, UserToken} from "../../../models/auth";
-import {PROFILE_KEY, TOKEN_KEY} from "../../../utils/constants";
+import {LoginErrors, UserToken} from "../../../models/auth";
+import {TOKEN_KEY} from "../../../utils/constants";
 
 @Component({
   selector: 'app-login',
@@ -61,22 +61,20 @@ export class LoginComponent implements OnInit {
 
     this.authService.userLogin(this.loginForm.value).subscribe(
       (response: UserToken) => {
-        console.log("User login response: ", response);
         this.authService.storeEntry(TOKEN_KEY, response);
+        this.router.navigate(['/dashboard']);
       },
       (error) => {
-        console.log("User login error: ", error);
         this.isLoginInProgress = false;
         if (error?.status === 422) {
           this.loginErrors = error?.error?.errors;
-        } else if (error?.status === 403) {
-          this.alertErrors = error?.error?.errors?.email[0];
+        } else if (error?.status === 400) {
+          this.alertErrors = error?.error?.error_description;
         } else {
           this.alertErrors = 'Une erreur est survenue, veuillez réessayer svp !';
         }
       }
     );
-
   }
 
 

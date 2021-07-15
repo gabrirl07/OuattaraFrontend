@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {EncryptService} from "../encrypt/encrypt.service";
-import {LoginPayload, User, UserToken} from "../../models/auth";
+import {LoginPayload, UserToken} from "../../models/auth";
 import {Observable} from "rxjs";
 import {LOGIN_URL, TOKEN_KEY} from "../../utils/constants";
 import {environment} from "../../../environments/environment";
@@ -20,7 +20,6 @@ export class AuthenticationService {
     userLogin.client_id = environment.client_id;
     userLogin.client_secret = environment.client_secret;
     userLogin.grant_type = environment.grant_type;
-    console.log(userLogin);
     return this.httpClient.post<UserToken>(LOGIN_URL, userLogin);
   }
 
@@ -38,6 +37,10 @@ export class AuthenticationService {
 
   getToken() {
     return this.getEntry(TOKEN_KEY).access_token;
+  }
+
+  logout() {
+    localStorage.clear();
   }
 
 }
