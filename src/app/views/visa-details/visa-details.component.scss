@@ -1,0 +1,82 @@
+
+
+.social-sales-count {
+  line-height: 1;
+
+  &.uk-label {
+    padding: 0.5em;
+  }
+}
+
+.tab-content .card-body {
+  padding: 0;
+}
+
+.list-group-item {
+  border: unset;
+}
+
+.status-comment > div {
+  padding: 1em;
+  color: #343a40;
+}
+
+.profil-status ul li:nth-child(3) {
+  padding: 0.5em 0;
+}
+
+.uk-timeline .uk-timeline-item .uk-card {
+  max-height: 300px;
+}
+
+.uk-timeline .uk-timeline-item {
+  display: flex;
+  position: relative;
+}
+
+.uk-timeline .uk-timeline-item::before {
+  background: #dadee4;
+  content: "";
+  height: 100%;
+  left: 19px;
+  position: absolute;
+  top: 60px;
+  width: 2px;
+  z-index: 0;
+}
+
+.uk-timeline .uk-timeline-item .uk-timeline-icon .uk-badge {
+  margin-top: 20px;
+  width: 40px;
+  height: 40px;
+}
+
+.uk-timeline .uk-timeline-item .uk-timeline-content {
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0 0 0 1rem;
+}
+
+.uk-container {
+  padding-bottom: 100px;
+}
+
+.uk-margin-medium-bottom {
+  margin-bottom: 20px;
+}
+
+.uk-card-header {
+  padding: 10px 20px;
+}
+
+.uk-card-body {
+  padding: 20px;
+  font-size: 0.8rem;
+}
+
+.uk-card-title {
+  font-size: 1.1rem;
+}
+
+
+

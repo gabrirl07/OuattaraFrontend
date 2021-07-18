@@ -9,11 +9,12 @@ import {Observable, throwError} from 'rxjs';
 import {AuthenticationService} from "../../services/auth/authentication.service";
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {NotificationService} from "../../services/notification/notification.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router, private notificationService: NotificationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
@@ -31,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           localStorage.clear();
-          // Todo: Show warning msg : Session expirée, reconnectez-vous svp !
+          this.notificationService.error('Session expirée, reconnectez-vous svp !');
           this.router.navigate(['login']);
         }
         return throwError(error);

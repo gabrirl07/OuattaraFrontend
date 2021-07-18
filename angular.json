@@ -37,13 +37,24 @@
               "src/assets/libs/css/style.css",
               "src/assets/vendor/fonts/fontawesome/css/fontawesome-all.css",
               "src/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css",
-              "src/assets/vendor/fonts/flag-icon-css/flag-icon.min.css"
+              "src/assets/vendor/fonts/flag-icon-css/flag-icon.min.css",
+              "node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css",
+              "src/assets/css/uikit.min.css",
+              "src/assets/css/ekko-lightbox.css",
+              "node_modules/toastr/build/toastr.min.css"
             ],
             "scripts": [
               "src/assets/vendor/jquery/jquery-3.3.1.min.js",
               "src/assets/vendor/bootstrap/js/bootstrap.bundle.js",
               "src/assets/vendor/slimscroll/jquery.slimscroll.js",
-              "src/assets/libs/js/main-js.js"
+              "src/assets/js/ekko-lightbox.min.js",
+              "src/assets/libs/js/main-js.js",
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/datatables.net/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js",
+              "src/assets/js/uikit.min.js",
+              "src/assets/js/uikit-icons.min.js",
+              "node_modules/toastr/build/toastr.min.js"
             ]
           },
           "configurations": {

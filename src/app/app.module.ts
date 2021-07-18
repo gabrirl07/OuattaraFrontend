@@ -8,21 +8,30 @@ import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { LoginComponent } from './views/authentication/login/login.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import {httpInterceptorProviders} from "./interceptors";
+import {DataTablesModule} from "angular-datatables";
+import { VisaDetailsComponent } from './views/visa-details/visa-details.component';
+import { VisaOverviewComponent } from './views/visa-overview/visa-overview.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
     LoginComponent,
+    VisaDetailsComponent,
+    VisaOverviewComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    ReactiveFormsModule,
-    HttpClientModule
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        DataTablesModule
+    ],
+  providers: [
+    httpInterceptorProviders
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

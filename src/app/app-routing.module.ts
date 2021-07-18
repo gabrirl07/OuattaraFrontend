@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from './views/authentication/login/login.component';
 import {DashboardComponent} from './views/dashboard/dashboard.component';
 import {AuthGuard} from "./guards/auth/auth.guard";
+import {VisaOverviewComponent} from "./views/visa-overview/visa-overview.component";
+import {VisaDetailsComponent} from "./views/visa-details/visa-details.component";
 
 const routes: Routes = [
   {
@@ -17,10 +19,25 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'dashboard',
+    path: 'dashboard/visas',
     data : {title : 'dashboard'},
     canActivate: [AuthGuard],
-    component: DashboardComponent
+    component: DashboardComponent,
+    children:[
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+      {
+        path: 'overview',
+        component: VisaOverviewComponent
+      },
+      {
+        path: ':id',
+        component: VisaDetailsComponent
+      },
+    ]
   },
 ];
 

@@ -18,3 +18,12 @@
 .invalid-feedback {
   display: block;
 }
+
+.dashboard-spinner {
+  border-top: 6px solid white;
+  border-left: 6px solid white;
+  height: 20px;
+  width: 20px;
+  top: 4px;
+  position: relative;
+}

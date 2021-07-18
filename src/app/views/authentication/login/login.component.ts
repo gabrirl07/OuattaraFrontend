@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {LoginErrors, UserToken} from "../../../models/auth";
 import {TOKEN_KEY} from "../../../utils/constants";
+import {NotificationService} from "../../../services/notification/notification.service";
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private authService: AuthenticationService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -62,7 +64,7 @@ export class LoginComponent implements OnInit {
     this.authService.userLogin(this.loginForm.value).subscribe(
       (response: UserToken) => {
         this.authService.storeEntry(TOKEN_KEY, response);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/dashboard/visas']);
       },
       (error) => {
         this.isLoginInProgress = false;
@@ -72,6 +74,7 @@ export class LoginComponent implements OnInit {
           this.alertErrors = error?.error?.error_description;
         } else {
           this.alertErrors = 'Une erreur est survenue, veuillez réessayer svp !';
+          this.notificationService.error();
         }
       }
     );

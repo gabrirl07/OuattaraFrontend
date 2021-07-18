@@ -36,7 +36,7 @@ export class AuthenticationService {
   }
 
   getToken() {
-    return this.getEntry(TOKEN_KEY).access_token;
+    return (this.getEntry(TOKEN_KEY) as UserToken).access_token;
   }
 
   logout() {
