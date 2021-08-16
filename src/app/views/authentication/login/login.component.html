@@ -1,0 +1,39 @@
+<div class="splash-container">
+  <div class="card ">
+    <div class="card-header text-center"><a><img class="logo-img" src="assets/images/logo.jpeg" alt="logo"></a><span class="splash-description">Please enter your user information.</span></div>
+    <div class="card-body">
+      <form [formGroup]="loginForm" >
+        <div class="form-group">
+          <input class="form-control form-control-lg" formControlName="username" id="username" type="email" placeholder="Username" autocomplete="on">
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class="invalid-feedback">
+            <span *ngIf="email?.errors?.required">* Ce champ est obligatoire.</span>
+            <span *ngIf="email?.errors?.email">* Désolé ! Ce n'est pas une adresse mail valide. Essayez suivant ce format exemple@org.com.</span>
+            <span *ngFor="let msg of loginErrors?.email">{{ "* " + msg }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="input-group mb-3">
+            <input class="form-control form-control-lg" formControlName="password" id="password" [type]="!passwordVisible ? 'password' : 'text'" placeholder="Password">
+            <div (click)="passwordVisible = !passwordVisible" class="input-group-append"><i class=" input-group-text fas " [class]="{'fa-eye-slash': !passwordVisible, 'fa-eye': passwordVisible}"></i></div>
+          </div>
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class="invalid-feedback">
+            <span *ngIf="password?.errors?.required">* Ce champ est obligatoire.</span>
+            <span *ngFor="let msg of loginErrors?.password">{{ "* " + msg }}</span>
+          </div>
+        </div>
+        <div *ngIf="alertErrors.length > 0" class="alert alert-danger" role="alert">
+          {{ alertErrors }}
+        </div>
+        <button [disabled]="isLoginInProgress" (click)="login()" class="btn btn-primary btn-lg btn-block">
+          <span *ngIf="isLoginInProgress" class="dashboard-spinner spinner-xs"></span>
+          {{ isLoginInProgress ? 'Signing...' : 'Sign in'}}
+        </button>
+      </form>
+    </div>
+    <div class="card-footer bg-white p-0 ">
+      <div class="card-footer-item card-footer-item-bordered">
+        <a routerLink="/dashboard" class="footer-link">Forgot Password</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+:host, .splash-container {
+  height: 100%;
+}
+
+.splash-container {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.logo-img, .card-footer-item {
+  width: 100%;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.dashboard-spinner {
+  border-top: 6px solid white;
+  border-left: 6px solid white;
+  height: 20px;
+  width: 20px;
+  top: 4px;
+  position: relative;
+}

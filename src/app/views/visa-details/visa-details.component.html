@@ -1,0 +1,325 @@
+<div class="influence-profile dashboard-page-root">
+  <div class="container-fluid dashboard-content">
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="page-header">
+          <h3 class="mb-2">Visa Request Details</h3>
+          <p class="pageheader-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi delectus laboriosam nemo sint? Amet dolorum fugiat illum, iste laboriosam magni, neque numquam, odit saepe suscipit tenetur unde? Aperiam, modi nisi.</p>
+          <div class="page-breadcrumb">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/dashboard/visas/overview" class="breadcrumb-link">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Visa Request Details</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="user-avatar text-center d-block">
+              <img [src]="getProfilPicture()" alt="User Avatar" class="rounded-circle user-avatar-xxl">
+            </div>
+            <div class="text-center">
+              <h2 class="font-24 mb-0">{{ getProfilName() }}</h2>
+            </div>
+          </div>
+          <div class="card-body border-top">
+            <h3 class="font-16">Localisation</h3>
+            <div class="">
+              <ul class="list-unstyled mb-0">
+                <li class="mb-0"><i class="fas fa-fw fa-map-marker-alt mr-2"></i>--</li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-body border-top profil-status">
+            <h3 class="font-16">Status</h3>
+            <div class="">
+              <ul class="list-unstyled mb-0">
+                <li class="mb-0">In progress: 25%</li>
+                <li class="mb-0">
+                  <div class="progress progress-sm">
+                    <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                </li>
+                <li class="mb-0">
+                  <a class="btn btn-success">Review</a>
+                  <a class="btn btn-danger">Reject</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-9 col-lg-9 col-md-7 col-sm-12 col-12">
+        <div class="influence-profile-content pills-regular">
+          <ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-campaign-tab" data-toggle="pill" href="#pills-campaign" role="tab" aria-controls="pills-campaign" aria-selected="true">Customer Infos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-packages-tab" data-toggle="pill" href="#pills-packages" role="tab" aria-controls="pills-packages" aria-selected="false">Requests Infos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-review-tab" data-toggle="pill" href="#pills-review" role="tab" aria-controls="pills-review" aria-selected="false">Status</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-msg-tab" data-toggle="pill" href="#pills-msg" role="tab" aria-controls="pills-msg" aria-selected="false">Documents</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-campaign" role="tabpanel" aria-labelledby="pills-campaign-tab">
+              <div class="card">
+                <h5 class="card-header">General</h5>
+                <div class="card-body ">
+                  <ul class="social-sales list-group list-group-flush">
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Firstname</span>
+                      <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.firstname)}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Lastname</span>
+                      <span class="social-sales-count text-dark">{{visa?.costumer?.lastname}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Middle name</span>
+                      <span class="social-sales-count text-dark">{{visa?.costumer?.middlename}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Language</span>
+                      <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.language)}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Birth date</span>
+                      <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.birthdate)}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Gender</span>
+                      <span *ngIf="visa?.costumer?.gender" class="social-sales-count text-dark">{{visa?.costumer?.gender === 'M' ? 'Homme' : 'Femme'}}</span>
+                      <span *ngIf="!visa?.costumer?.gender" class="social-sales-count text-dark">None</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Contacts</h5>
+                <div class="card-body">
+                  <ul class="social-sales list-group list-group-flush">
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Email</span>
+                      <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.reseller?.account?.email)}}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Tel</span>
+                      <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.phone_number)}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Relatives</h5>
+                <div class="card-body">
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Father name</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.father_name)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Mother name</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.mother_name)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Spouse Name</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.husband_name)}}</span>
+                  </li>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Personal</h5>
+                <div class="card-body">
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Marital Status</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.marital_status)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Religion</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.religion)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Profession</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.profession)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Nationality</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.nationality)}}</span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Birth Country</span>
+                    <span class="social-sales-count text-dark">{{preventNull(visa?.costumer?.birth_country)}}</span>
+                  </li>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-packages" role="tabpanel" aria-labelledby="pills-packages-tab">
+              <div class="card">
+                <h5 class="card-header">General</h5>
+                <div class="card-body">
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Status</span>
+                    <span class="social-sales-count uk-label uk-label-warning uk-margin-auto-left"  [ngStyle]="{'background-color': visa?.latest_status?.status?.color_code }">
+                      {{preventNull(visa?.latest_status?.status?.name)}}
+                    </span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Created on</span>
+                    <span class="social-sales-count text-dark"></span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Passport number</span>
+                    <span class="social-sales-count text-dark"></span>
+                  </li>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Info</h5>
+                <div class="card-body">
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Type</span>
+                    <span class="social-sales-count text-dark"></span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Arrival Date</span>
+                    <span class="social-sales-count text-dark"></span>
+                  </li>
+                  <li class="list-group-item social-sales-content">
+                    <span class="social-sales-name">Visit reason</span>
+                    <span class="social-sales-count text-dark"></span>
+                  </li>
+                </div>
+              </div>
+              <div class="card">
+                <h5 class="card-header">Comment</h5>
+                <div class="card-body status-comment">
+                  <div class="review-block">
+                    <p class="review-text m-0">
+                      {{preventNull(visa?.latest_status?.comment)}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
+              <div class="card">
+                <div class="card-body">
+                  <div class="uk-container uk-padding">
+                    <div class="uk-timeline">
+                      <div class="uk-timeline-item" *ngFor="let status of visa?.status_updates">
+                        <div class="uk-timeline-icon">
+                          <span class="uk-badge"><span uk-icon="check"></span></span>
+                        </div>
+                        <div class="uk-timeline-content">
+                          <div class="uk-card uk-card-default uk-margin-medium-bottom uk-overflow-auto">
+                            <div class="uk-card-header">
+                              <div class="uk-grid-small uk-flex-middle" uk-grid>
+                                <h3 class="uk-card-title"><time datetime="2020-07-07">{{status.updated_date | date: "EEEE MMMM d y At h:mm:ss"}}</time></h3>
+                                <span class="uk-label uk-label-warning uk-margin-auto-left"  [ngStyle]="{'background-color': status.status?.color_code }">{{status.status?.name}}</span>
+                              </div>
+                            </div>
+                            <div class="uk-card-body">
+                              <p>{{status.comment}}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-msg" role="tabpanel" aria-labelledby="pills-msg-tab">
+              <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- .card -->
+                  <div class="card card-figure">
+                    <!-- .card-figure -->
+                    <figure class="figure">
+                      <!-- .figure-img -->
+                      <div class="figure-attachment">
+                        <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                          <img src="https://unsplash.it/600.jpg?image=251" alt="Card image cap" class="img-fluid">
+                        </a>
+                      </div>
+                      <!-- /.figure-img -->
+                      <figcaption class="figure-caption">
+                        <ul class="list-inline d-flex text-muted mb-0">
+                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
+                          <li class="list-inline-item">
+                            <a>  <span><i class="fas fa-trash "></i></span></a>
+                          </li>
+                        </ul>
+                      </figcaption>
+                    </figure>
+                    <!-- /.card-figure -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- .card -->
+                  <div class="card card-figure">
+                    <!-- .card-figure -->
+                    <figure class="figure">
+                      <!-- .figure-img -->
+                      <div class="figure-attachment">
+                        <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                          <img src="https://unsplash.it/600.jpg?image=252" alt="Card image cap" class="img-fluid">
+                        </a>
+                      </div>
+                      <!-- /.figure-img -->
+                      <figcaption class="figure-caption">
+                        <ul class="list-inline d-flex text-muted mb-0">
+                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
+                          <li class="list-inline-item">
+                            <a>  <span><i class="fas fa-trash "></i></span></a>
+                          </li>
+                        </ul>
+                      </figcaption>
+                    </figure>
+                    <!-- /.card-figure -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                  <!-- .card -->
+                  <div class="card card-figure">
+                    <!-- .card-figure -->
+                    <figure class="figure">
+                      <!-- .figure-img -->
+                      <div class="figure-attachment">
+                        <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                          <img src="https://unsplash.it/600.jpg?image=253" alt="Card image cap" class="img-fluid">
+                        </a>
+                      </div>
+                      <!-- /.figure-img -->
+                      <figcaption class="figure-caption">
+                        <ul class="list-inline d-flex text-muted mb-0">
+                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
+                          <li class="list-inline-item">
+                            <a>  <span><i class="fas fa-trash "></i></span></a>
+                          </li>
+                        </ul>
+                      </figcaption>
+                    </figure>
+                    <!-- /.card-figure -->
+                  </div>
+                  <!-- /.card -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
