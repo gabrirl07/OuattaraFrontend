@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {VisaService} from "../../services/visa/visa.service";
 import {Visa} from "../../models/visa/visa";
+import {NotificationService} from '../../services/notification/notification.service';
 
 
 @Component({
@@ -13,19 +14,25 @@ import {Visa} from "../../models/visa/visa";
 export class VisaDetailsComponent implements OnInit {
 
   visa!: Visa;
+  notFound: boolean = false;
+  documents: any[] = [];
+  isLoadingDocuments: boolean = true;
+  reviewed: boolean = false;
+  comment!: string;
+  isUpdatingStatus: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private visaService: VisaService
+    private visaService: VisaService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
-      this.visaService.getVisa(param.id).subscribe((data) => {
-        this.visa = data
-      })
+      this.reload(param.id);
     })
   }
+
 
   getProfilName(){
     let firstname = this.visa?.costumer?.firstname ?? '';
@@ -37,11 +44,41 @@ export class VisaDetailsComponent implements OnInit {
     return this.visa?.costumer?.customer_picture ?? 'assets/images/avatar.png';
   }
 
-  preventNull(value: any){
-    return value ? value : 'None';
+  preventNull(value: any = null){
+    return value ? value : 'N/A';
   }
 
-  openLigthbox($event: MouseEvent) {
-    console.log($event.target)
+  updateStatus() {
+    this.isUpdatingStatus = true;
+    this.visaService.updateStatus(this.visa.id, {
+      status: {
+        id: 1
+      },
+      comment: this.comment
+    }).subscribe(() => {
+      this.notificationService.success('Visa Status update with success !');
+      $('#updateStatusCloser').trigger('click');
+      this.comment = '';
+      this.isUpdatingStatus = false;
+      this.reload(this.visa.id);
+    }, () => {
+      this.notificationService.error();
+      this.comment = '';
+      this.isUpdatingStatus = false;
+    });
+  }
+
+  reload(visaId: any) {
+    this.visaService.getVisa(visaId).subscribe((data) => {
+      this.visa = data
+    }, () =>{
+      this.notFound = true;
+    });
+
+    this.visaService.getVisaDocuments(visaId).subscribe((data) => {
+      this.documents = data.items;
+      this.isLoadingDocuments = false;
+    });
+
   }
 }

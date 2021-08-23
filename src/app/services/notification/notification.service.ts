@@ -16,7 +16,7 @@ export class NotificationService {
     this.notifier.success(msg)
   }
 
-  error(msg: string = 'Une erreur est survenue, veuillez réessayer svp !') {
+  error(msg: string = 'An error has occurred, please try again!') {
     this.notifier.error(msg)
   }
 

@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="!notFound" class="row">
       <div class="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
         <div class="card">
           <div class="card-body">
@@ -39,17 +39,41 @@
             <h3 class="font-16">Status</h3>
             <div class="">
               <ul class="list-unstyled mb-0">
-                <li class="mb-0">In progress: 25%</li>
+<!--                <li class="mb-0">In progress: 25%</li>-->
+<!--                <li class="mb-0">-->
+<!--                  <div class="progress progress-sm">-->
+<!--                    <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--                  </div>-->
+<!--                </li>-->
                 <li class="mb-0">
-                  <div class="progress progress-sm">
-                    <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </li>
-                <li class="mb-0">
-                  <a class="btn btn-success">Review</a>
-                  <a class="btn btn-danger">Reject</a>
+                  <a class="btn btn-success text-white" (click)="reviewed = true" data-toggle="modal" data-target="#updateStatusModal">Review</a>
+                  <a class="btn btn-danger text-white" (click)="reviewed = false" data-toggle="modal" data-target="#updateStatusModal">Reject</a>
                 </li>
               </ul>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog"  aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" >{{ reviewed ? 'Review Visa' : 'Reject Visa' }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label for="comment">Make a comment</label>
+                      <textarea [(ngModel)]="comment" class="form-control" placeholder="Put your comment here" name="comment" id="comment" required="required" ></textarea>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="updateStatusCloser" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" [disabled]="!comment" (click)="updateStatus()"><span *ngIf="isUpdatingStatus" class="btn-spinner dashboard-spinner spinner-xs"></span><span>{{ reviewed ? 'Review' : 'Reject' }}</span></button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -174,11 +198,11 @@
                   </li>
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Created on</span>
-                    <span class="social-sales-count text-dark"></span>
+                    <span class="social-sales-count text-dark">{{ preventNull() }}</span>
                   </li>
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Passport number</span>
-                    <span class="social-sales-count text-dark"></span>
+                    <span class="social-sales-count text-dark">{{ preventNull() }}</span>
                   </li>
                 </div>
               </div>
@@ -187,15 +211,15 @@
                 <div class="card-body">
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Type</span>
-                    <span class="social-sales-count text-dark"></span>
+                    <span class="social-sales-count text-dark">{{ preventNull() }}</span>
                   </li>
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Arrival Date</span>
-                    <span class="social-sales-count text-dark"></span>
+                    <span class="social-sales-count text-dark">{{ preventNull() }}</span>
                   </li>
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Visit reason</span>
-                    <span class="social-sales-count text-dark"></span>
+                    <span class="social-sales-count text-dark">{{ preventNull() }}</span>
                   </li>
                 </div>
               </div>
@@ -239,86 +263,35 @@
               </div>
             </div>
             <div class="tab-pane fade" id="pills-msg" role="tabpanel" aria-labelledby="pills-msg-tab">
-              <div class="row">
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                  <!-- .card -->
+              <div *ngIf="!isLoadingDocuments && documents.length > 0" class="row">
+                <div *ngFor="let doc of documents" class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-figure">
-                    <!-- .card-figure -->
                     <figure class="figure">
-                      <!-- .figure-img -->
                       <div class="figure-attachment">
-                        <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
-                          <img src="https://unsplash.it/600.jpg?image=251" alt="Card image cap" class="img-fluid">
+                        <a [href]="doc" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                          <img [src]="doc" alt="Card image cap" class="img-fluid">
                         </a>
                       </div>
-                      <!-- /.figure-img -->
-                      <figcaption class="figure-caption">
-                        <ul class="list-inline d-flex text-muted mb-0">
-                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
-                          <li class="list-inline-item">
-                            <a>  <span><i class="fas fa-trash "></i></span></a>
-                          </li>
-                        </ul>
-                      </figcaption>
                     </figure>
-                    <!-- /.card-figure -->
                   </div>
-                  <!-- /.card -->
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                  <!-- .card -->
-                  <div class="card card-figure">
-                    <!-- .card-figure -->
-                    <figure class="figure">
-                      <!-- .figure-img -->
-                      <div class="figure-attachment">
-                        <a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
-                          <img src="https://unsplash.it/600.jpg?image=252" alt="Card image cap" class="img-fluid">
-                        </a>
-                      </div>
-                      <!-- /.figure-img -->
-                      <figcaption class="figure-caption">
-                        <ul class="list-inline d-flex text-muted mb-0">
-                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
-                          <li class="list-inline-item">
-                            <a>  <span><i class="fas fa-trash "></i></span></a>
-                          </li>
-                        </ul>
-                      </figcaption>
-                    </figure>
-                    <!-- /.card-figure -->
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
-                  <!-- .card -->
-                  <div class="card card-figure">
-                    <!-- .card-figure -->
-                    <figure class="figure">
-                      <!-- .figure-img -->
-                      <div class="figure-attachment">
-                        <a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
-                          <img src="https://unsplash.it/600.jpg?image=253" alt="Card image cap" class="img-fluid">
-                        </a>
-                      </div>
-                      <!-- /.figure-img -->
-                      <figcaption class="figure-caption">
-                        <ul class="list-inline d-flex text-muted mb-0">
-                          <li class="list-inline-item text-truncate mr-auto">Image title </li>
-                          <li class="list-inline-item">
-                            <a>  <span><i class="fas fa-trash "></i></span></a>
-                          </li>
-                        </ul>
-                      </figcaption>
-                    </figure>
-                    <!-- /.card-figure -->
-                  </div>
-                  <!-- /.card -->
                 </div>
               </div>
+              <div *ngIf="!isLoadingDocuments && documents.length === 0" class="row">
+                <div class="empty">
+                  <div class="img"><i class="fas fa-folder-open "></i></div>
+                  <div class="msg"><p>This visa have no document</p></div>
+                </div>
+              </div>
+              <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div *ngIf="notFound" class="row">
+      <div class="empty">
+        <div class="img"><img src="assets/images/404.svg" alt=""></div>
+        <div class="msg"><p><span>Oups ! This visa do not exit or was deleted.</span> <span><a routerLink="/dashboard/visas/overview" class="btn btn-success text-white">Back to Dashboard</a></span></p></div>
       </div>
     </div>
   </div>

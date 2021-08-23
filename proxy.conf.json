@@ -3,10 +3,13 @@
     "target": "http://dubaievisa.bssi.ca:8180",
     "secure": false,
     "logLevel": "debug",
-    "changeOrigin": true,
-    "pathRewrite": {
-      "^/api": ""
-    }
+    "changeOrigin": true
+  },
+  "/oauth/*": {
+    "target": "http://dubaievisa.bssi.ca:8180",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
   },
   "nodeMemoryBuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --prod",
   "changeOrigin": true

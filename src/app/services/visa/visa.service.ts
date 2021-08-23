@@ -28,4 +28,14 @@ export class VisaService {
   getDashboardStats(): Observable<any> {
     return this.httpClient.get<any>(`${BASE_URL}/stats`);
   }
+
+  getVisaDocuments(visaId: string): Observable<any> {
+    return this.httpClient.get<any>(`${VISA_LIST_URL}/${visaId}/passport/documents`);
+  }
+
+  updateStatus(visaId: string, status: any): Observable<any> {
+    return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/status/update`, status);
+  }
+
+
 }
