@@ -73,8 +73,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let visa of visas?.items; let i = index;">
-                  <td>{{ i }}</td>
+                <tr *ngFor="let visa of visas; let i = index;">
+                  <td>{{ i + 1 }}</td>
                   <td><img class="visa-profil" [src]="getProfilPicture(visa)" alt=""></td>
                   <td>#{{visa.id}}</td>
                   <td>{{preventNull(visa.costumer?.firstname) + " " + preventNull(visa.costumer?.lastname) + ", " + preventNull(visa.costumer?.birth_country)}}</td>
@@ -82,8 +82,11 @@
                   <td>{{preventNull(visa.visa_type?.name)}}</td>
                   <td>{{visa?.created_on | date: "dd-MM-yyyy à HH:mm:ss"}}</td>
                   <td>
-                    <span class="uk-label uk-label-warning uk-margin-auto-left" [ngStyle]="{'background-color': visa.latest_status?.status?.color_code }">
-                      {{preventNull(visa.latest_status?.status?.name) }}
+                    <span *ngIf="visa.latest_status?.status?.name" class="uk-label uk-margin-auto-left" [ngStyle]="{'background-color': visa.latest_status?.status?.color_code }">
+                      {{ visa.latest_status?.status?.name }}
+                    </span>
+                    <span *ngIf="!visa.latest_status?.status?.name">
+                      N/A
                     </span>
                   </td>
                   <td><button (click)="showDetails(visa.id)" class="btn btn-primary btn-xs">View</button></td>
@@ -97,12 +100,23 @@
                   <th>Costumer</th>
                   <th>Reseller</th>
                   <th>Visa type</th>
-                  <th>Created on	</th>
+                  <th>Created on</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
                 </tfoot>
               </table>
+              <nav *ngIf="pagination" aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                  <li class="page-item" (click)="updatePagination(pagination.self - 1)" [class.disabled]="pagination.self === 1">
+                    <a class="page-link" tabindex="-1" >Previous</a>
+                  </li>
+                  <li class="page-item" (click)="updatePagination(i + 1)" [class.active]="(i + 1) === pagination.self" *ngFor="let page of createRange(pagination.total_page); let i = index"><a class="page-link" >{{ i + 1 }}</a></li>
+                  <li class="page-item" (click)="updatePagination(pagination.next)" [class.disabled]="!pagination.next">
+                    <a class="page-link" >Next</a>
+                  </li>
+                </ul>
+              </nav>
             </div>
             <div *ngIf="!visas" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
           </div>

@@ -1,3 +1,5 @@
+import {Pagination} from '../global';
+
 export interface Visa {
   id: string;
   created_on: string;
@@ -8,14 +10,6 @@ export interface Visa {
   latest_status: any;
 }
 
-export interface VisaList {
-  items: Visa[],
-  total_page: number,
-  self: number,
-  items_count: number,
-  _links: {
-    self: string,
-    first: string,
-    last: string,
-  },
+export interface VisaList extends Pagination{
+  items: Visa[]
 }

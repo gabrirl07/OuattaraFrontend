@@ -9,16 +9,16 @@ import {Observable} from "rxjs";
 })
 export class VisaService {
 
+  public VISA_LIST_PAGINATION_STEP = 10;
+  private VISA_LIST_PAGINATION_URL = `${VISA_LIST_URL}?limit=${this.VISA_LIST_PAGINATION_STEP}`;
+
+
   constructor(
     private httpClient: HttpClient
   ) { }
 
-  getVisaListWithLimit(): Observable<VisaList> {
-    return this.httpClient.get<VisaList>(`${VISA_LIST_URL}?limit=30`);
-  }
-
-  getVisaList(): Observable<VisaList> {
-    return this.httpClient.get<VisaList>(`${VISA_LIST_URL}`);
+  getVisaList(page: any = 1): Observable<any> {
+    return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}`);
   }
 
   getVisa(visaId: string): Observable<Visa> {

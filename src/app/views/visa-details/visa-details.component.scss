@@ -100,32 +100,50 @@
     padding-top: 1em;
 
     p {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      font-size: 1.2em;
+
+      i {
+        margin-right: .5em;
+      }
 
       span {
         margin-bottom: 1em;
       }
 
-      span:first-child {
-        font-size: 1.2em;
-      }
-
-      span:last-child {
-        text-align: center;
-      }
     }
   }
 
-  .img {
-    text-align: center;
+  &.illustrated {
+    .msg {
+      padding-top: 1em;
 
-    i {
-      font-size: 8.2em;
+      p {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        span {
+          margin-bottom: 1em;
+        }
+
+        span:first-child, span:last-child {
+          text-align: center;
+        }
+
+      }
+    }
+
+    .img {
+      text-align: center;
+
+      i {
+        font-size: 8.2em;
+      }
     }
   }
 }
+
+
 
 .profil-status ul li a {
   margin-right: 1em;

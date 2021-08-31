@@ -192,8 +192,11 @@
                 <div class="card-body">
                   <li class="list-group-item social-sales-content">
                     <span class="social-sales-name">Status</span>
-                    <span class="social-sales-count uk-label uk-label-warning uk-margin-auto-left"  [ngStyle]="{'background-color': visa?.latest_status?.status?.color_code }">
-                      {{preventNull(visa?.latest_status?.status?.name)}}
+                    <span *ngIf="visa?.latest_status?.status?.name" class="social-sales-count uk-label uk-margin-auto-left"  [ngStyle]="{'background-color': visa?.latest_status?.status?.color_code }">
+                      {{ visa?.latest_status?.status?.name }}
+                    </span>
+                    <span *ngIf="!visa?.latest_status?.status?.name" class="social-sales-count ">
+                      N/A
                     </span>
                   </li>
                   <li class="list-group-item social-sales-content">
@@ -237,7 +240,7 @@
             <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
               <div class="card">
                 <div class="card-body">
-                  <div class="uk-container uk-padding">
+                  <div *ngIf="visa?.status_updates.length > 0" class="uk-container uk-padding">
                     <div class="uk-timeline">
                       <div class="uk-timeline-item" *ngFor="let status of visa?.status_updates">
                         <div class="uk-timeline-icon">
@@ -259,10 +262,17 @@
                       </div>
                     </div>
                   </div>
+                  <div *ngIf="visa?.status_updates.length === 0" class="row">
+                    <div class="empty">
+                      <div class="msg"><p><i class="fas fa-info-circle "></i>This visa have no status for moment</p></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="tab-pane fade" id="pills-msg" role="tabpanel" aria-labelledby="pills-msg-tab">
+              <div class="card">
+                <div class="card-body">
               <div *ngIf="!isLoadingDocuments && documents.length > 0" class="row">
                 <div *ngFor="let doc of documents" class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-figure">
@@ -277,19 +287,21 @@
                 </div>
               </div>
               <div *ngIf="!isLoadingDocuments && documents.length === 0" class="row">
-                <div class="empty">
-                  <div class="img"><i class="fas fa-folder-open "></i></div>
-                  <div class="msg"><p>This visa have no document</p></div>
+                    <div class="empty">
+                      <div class="msg"><p><i class="fas fa-info-circle "></i>This visa have no document</p></div>
+
                 </div>
               </div>
               <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div *ngIf="notFound" class="row">
-      <div class="empty">
+      <div class="empty illustrated">
         <div class="img"><img src="assets/images/404.svg" alt=""></div>
         <div class="msg"><p><span>Oups ! This visa do not exit or was deleted.</span> <span><a routerLink="/dashboard/visas/overview" class="btn btn-success text-white">Back to Dashboard</a></span></p></div>
       </div>
