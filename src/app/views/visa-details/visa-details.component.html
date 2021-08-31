@@ -278,8 +278,8 @@
                   <div class="card card-figure">
                     <figure class="figure">
                       <div class="figure-attachment">
-                        <a [href]="doc" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
-                          <img [src]="doc" alt="Card image cap" class="img-fluid">
+                        <a [href]="doc.file" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                          <img [src]="doc.file" alt="Card image cap" class="img-fluid">
                         </a>
                       </div>
                     </figure>
@@ -289,7 +289,6 @@
               <div *ngIf="!isLoadingDocuments && documents.length === 0" class="row">
                     <div class="empty">
                       <div class="msg"><p><i class="fas fa-info-circle "></i>This visa have no document</p></div>
-
                 </div>
               </div>
               <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
