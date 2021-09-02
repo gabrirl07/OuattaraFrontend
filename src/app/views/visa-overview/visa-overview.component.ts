@@ -4,6 +4,7 @@ import {VisaService} from "../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
 import {Pagination} from '../../models/global';
+import {NotificationService} from '../../services/notification/notification.service';
 
 @Component({
   selector: 'app-visa-overview',
@@ -15,8 +16,11 @@ export class VisaOverviewComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   stats: any;
   pagination!: Pagination | null;
+  isLoadingSearchResult: boolean = false;
+  search: string = '';
+  isSearching: boolean = false;
 
-  constructor(private visaService: VisaService, private router: Router) { }
+  constructor(private visaService: VisaService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -30,7 +34,6 @@ export class VisaOverviewComponent implements OnInit {
     request.push(this.visaService.getDashboardStats());
     request.push(this.visaService.getVisaList());
     forkJoin([...request]).subscribe((result) => {
-      console.log(result);
       this.stats = result[0];
       this.visas = result[1].items;
       this.pagination = result[1]?._links ? {
@@ -54,13 +57,15 @@ export class VisaOverviewComponent implements OnInit {
 
 
   getProfilPicture(visa: any){
-    return visa?.costumer?.customer_picture ?? 'assets/images/avatar.png';
+    return visa?.costumer?.picture?.file ?? 'assets/images/avatar.png';
   }
 
   updatePagination(page: any) {
       this.visas = null;
       this.pagination = null;
-      this.visaService.getVisaList(page).subscribe((result) => {
+      let request = this.isSearching ? this.visaService.filterVisaList({ name: this.search }, page) : this.visaService.getVisaList(page);
+      console.log(this.isSearching);
+      request.subscribe((result) => {
         this.visas = result.items;
         this.pagination = result._links ? {
           items_count: result?._links,
@@ -69,10 +74,41 @@ export class VisaOverviewComponent implements OnInit {
           self: result?.self,
           previous: result?.previous
         } : null;
-      });
+        this.isLoadingSearchResult = false;
+      }, () => {
+        this.notificationService.error();
+        this.isLoadingSearchResult = false;
+      })
   }
 
   createRange(number: number){
     return new Array(number);
+  }
+
+  updateTableOnSearch() {
+    if (this.search) {
+      this.isSearching = true;
+      this.isLoadingSearchResult = true;
+      this.visaService.filterVisaList({
+        name: this.search
+      }).subscribe((result) => {
+        this.visas = result.items;
+        this.pagination = result._links ? {
+          items_count: result?._links,
+          total_page: result?.total_page,
+          next: result?.next,
+          self: result?.self,
+          previous: result?.previous
+        } : null;
+        this.isLoadingSearchResult = false;
+      }, () => {
+        this.notificationService.error();
+        this.isLoadingSearchResult = false;
+      })
+    }
+    else  {
+      this.isSearching = false;
+      this.updatePagination(1)
+    }
   }
 }

@@ -37,5 +37,11 @@ export class VisaService {
     return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/status/update`, status);
   }
 
+  filterVisaList(search: any, page: any = 1) {
+    console.log(search, page);
+    if (search.name) return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}&name=${search.name}`);
+    return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=1`);
+  }
+
 
 }

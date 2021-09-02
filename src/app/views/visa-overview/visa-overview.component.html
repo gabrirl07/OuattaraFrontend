@@ -57,7 +57,14 @@
         <div class="card">
           <h5 class="card-header">Visa requests</h5>
           <div class="card-body">
+            <div class="table-filter-search">
+              Search :
+              <input [disabled]="!visas" type="text" [(ngModel)]="search" (blur)="updateTableOnSearch()" class="form-control">
+            </div>
             <div *ngIf="visas" class="table-responsive">
+              <div *ngIf="isLoadingSearchResult" class="table-filter-loader">
+                <span class="dashboard-spinner spinner-secondary spinner-xs"></span>
+              </div>
               <table class="table table-striped table-bordered first" datatable [dtOptions]="dtOptions">
                 <thead>
                 <tr>

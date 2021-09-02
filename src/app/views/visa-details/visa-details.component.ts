@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {VisaService} from "../../services/visa/visa.service";
 import {Visa} from "../../models/visa/visa";
 import {NotificationService} from '../../services/notification/notification.service';
+import {VISA_STATUS} from '../../utils/constants';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class VisaDetailsComponent implements OnInit {
   }
 
   getProfilPicture(){
-    return this.visa?.costumer?.customer_picture ?? 'assets/images/avatar.png';
+    return this.visa?.costumer?.picture?.file ?? 'assets/images/avatar.png';
   }
 
   preventNull(value: any = null){
@@ -52,7 +53,7 @@ export class VisaDetailsComponent implements OnInit {
     this.isUpdatingStatus = true;
     this.visaService.updateStatus(this.visa.id, {
       status: {
-        id: 1
+        id: this.reviewed ? VISA_STATUS.VISASTATUS_ACCEPTED : VISA_STATUS.VISASTATUS_REJECTED
       },
       comment: this.comment
     }).subscribe(() => {
