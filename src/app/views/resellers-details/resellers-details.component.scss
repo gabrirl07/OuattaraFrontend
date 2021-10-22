@@ -1,0 +1,39 @@
+
+.dashboard-influence {
+  background-color: #efeff6;
+}
+
+.influencer-profile-data .user-avatar-name {
+  float: initial;
+}
+
+.transaction-modal {
+
+  .tab-content {
+    border-right: none;
+    border-bottom: none;
+    border-left: none;
+    padding: 1em;
+  }
+
+  .nav-fill .nav-item {
+    flex: 0 1 0;
+  }
+
+  .tab-regular .nav.nav-tabs .nav-link {
+    padding: .5em 1em;
+    border: none;
+    color: #3d3f5d;
+    font-size: 1.2em;
+    background-color: transparent;
+  }
+
+  .tab-regular .nav-tabs .nav-link.active {
+    border-bottom: 1px solid #5969ff;
+    color: #5969ff;
+  }
+
+  .modal-footer {
+    border: none;
+  }
+}

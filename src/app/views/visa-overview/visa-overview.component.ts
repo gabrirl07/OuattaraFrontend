@@ -64,11 +64,10 @@ export class VisaOverviewComponent implements OnInit {
       this.visas = null;
       this.pagination = null;
       let request = this.isSearching ? this.visaService.filterVisaList({ name: this.search }, page) : this.visaService.getVisaList(page);
-      console.log(this.isSearching);
       request.subscribe((result) => {
         this.visas = result.items;
         this.pagination = result._links ? {
-          items_count: result?._links,
+          items_count: result?.items_count,
           total_page: result?.total_page,
           next: result?.next,
           self: result?.self,
@@ -94,7 +93,7 @@ export class VisaOverviewComponent implements OnInit {
       }).subscribe((result) => {
         this.visas = result.items;
         this.pagination = result._links ? {
-          items_count: result?._links,
+          items_count: result?.items_count,
           total_page: result?.total_page,
           next: result?.next,
           self: result?.self,

@@ -12,6 +12,8 @@ import {httpInterceptorProviders} from "./interceptors";
 import {DataTablesModule} from "angular-datatables";
 import { VisaDetailsComponent } from './views/visa-details/visa-details.component';
 import { VisaOverviewComponent } from './views/visa-overview/visa-overview.component';
+import { ResellersListComponent } from './views/resellers-list/resellers-list.component';
+import { ResellersDetailsComponent } from './views/resellers-details/resellers-details.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { VisaOverviewComponent } from './views/visa-overview/visa-overview.compo
     LoginComponent,
     VisaDetailsComponent,
     VisaOverviewComponent,
+    ResellersListComponent,
+    ResellersDetailsComponent,
   ],
     imports: [
         BrowserModule,

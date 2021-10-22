@@ -16,3 +16,69 @@ html, body, {
 .dashboard-page-root {
   background-color: #efeff6;
 }
+
+.table-filter-loader {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #00000075;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .dashboard-spinner {
+    border-top-color: white;
+    border-left-color: white;
+  }
+}
+
+.table-loader {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.table-responsive {
+  position: relative;
+  margin-top: .5em;
+}
+
+
+.table-filter-search {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+
+  input {
+    display: inline-block;
+    width: auto;
+    margin-left: 1em;
+    margin-right: .5em;
+  }
+
+  select {
+    display: inline-block;
+    width: auto;
+    margin-left: .5em;
+    min-width: 200px;
+  }
+}
+
+.table-filter {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.pagination {
+  .page-item.disabled {
+    pointer-events: none;
+  }
+}

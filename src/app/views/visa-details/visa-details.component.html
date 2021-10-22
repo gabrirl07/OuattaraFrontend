@@ -273,7 +273,7 @@
             <div class="tab-pane fade" id="pills-msg" role="tabpanel" aria-labelledby="pills-msg-tab">
               <div class="card">
                 <div class="card-body">
-              <div *ngIf="!isLoadingDocuments && documents.length > 0" class="row">
+                   <div *ngIf="!isLoadingDocuments && documents.length > 0" class="row">
                 <div *ngFor="let doc of documents" class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
                   <div class="card card-figure">
                     <figure class="figure">
@@ -287,7 +287,7 @@
                 </div>
               </div>
               <div *ngIf="!isLoadingDocuments && documents.length === 0" class="row">
-                    <div class="empty">
+                  <div class="empty">
                       <div class="msg"><p><i class="fas fa-info-circle "></i>This visa have no document</p></div>
                 </div>
               </div>

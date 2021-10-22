@@ -38,8 +38,7 @@ export class VisaService {
   }
 
   filterVisaList(search: any, page: any = 1) {
-    console.log(search, page);
-    if (search.name) return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}&name=${search.name}`);
+    if (search.name) return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}&filter=${search.name}`);
     return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=1`);
   }
 

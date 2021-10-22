@@ -1,0 +1,75 @@
+<div class="dashboard-ecommerce dashboard-page-root">
+    <div class="container-fluid dashboard-content ">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">Resellers</h2>
+                    <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Resellers list</h5>
+                    <div class="card-body">
+                        <div class="table-filter">
+                            <div class="table-filter-search">
+                                <span>Company :</span>
+                                <select [disabled]="!agents"  [(ngModel)]="company"  name="" id="" class="form-control">
+                                </select>
+                            </div>
+                            <div class="table-filter-search">
+                                <input [disabled]="!agents" type="text" [(ngModel)]="search" class="form-control" placeholder="Search here">
+                                <button (click)="updateTableOnSearch()" [disabled]="isLoadingSearchResult"  class="btn btn-primary btn-xs">Search</button>
+                            </div>
+                        </div>
+                        <div *ngIf="agents" class="table-responsive">
+                            <div *ngIf="isLoadingSearchResult" class="table-filter-loader">
+                                <span class="dashboard-spinner spinner-secondary spinner-xs"></span>
+                            </div>
+                            <table class="table table-striped table-bordered first" datatable [dtOptions]="dtOptions">
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Code</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let agent of agents" (click)="showDetails(agent.id)" style="cursor: pointer">
+                                    <td>{{ utilsService.preventNull(agent.name) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.surname) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.code) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.account.email) }}</td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Surname</th>
+                                    <th>Code</th>
+                                    <th>Email</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                            <nav *ngIf="pagination" aria-label="Page navigation example">
+                                <ul class="pagination justify-content-end">
+                                    <li class="page-item" (click)="updatePagination(pagination.self - 1)" [class.disabled]="pagination.self === 1 || pagination.items_count === 1">
+                                        <a class="page-link" tabindex="-1" >Previous</a>
+                                    </li>
+                                    <li class="page-item" (click)="updatePagination(i + 1)" [class.active]="(i + 1) === pagination.self" *ngFor="let page of utilsService.createRange(pagination.total_page); let i = index"><a class="page-link" >{{ i + 1 }}</a></li>
+                                    <li class="page-item" (click)="updatePagination(pagination.next)" [class.disabled]="!pagination.next || pagination.items_count === 1">
+                                        <a class="page-link" >Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div *ngIf="!agents" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

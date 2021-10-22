@@ -8,6 +8,8 @@ export const PROFILE_KEY = "userKey";
 export const BASE_URL = `${environment.BASE_API_URL}/v1`;
 export const LOGIN_URL = `${environment.BASE_URL}/oauth/v2/token`;
 export const VISA_LIST_URL = `${environment.BASE_API_URL}/v1/visarequests`;
+export const AGENT_LIST_URL = `${environment.BASE_API_URL}/v1/resellers`;
+export const TRANSACTION_URL = `${environment.BASE_API_URL}/v1/transactions`;
 
 // Enum 
 
