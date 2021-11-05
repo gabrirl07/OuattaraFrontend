@@ -39,8 +39,8 @@
                                 </thead>
                                 <tbody>
                                 <tr *ngFor="let agent of agents" (click)="showDetails(agent.id)" style="cursor: pointer">
-                                    <td>{{ utilsService.preventNull(agent.name) }}</td>
-                                    <td>{{ utilsService.preventNull(agent.surname) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.firstname) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.lastname) }}</td>
                                     <td>{{ utilsService.preventNull(agent.code) }}</td>
                                     <td>{{ utilsService.preventNull(agent.account.email) }}</td>
                                 </tr>

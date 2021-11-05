@@ -4,6 +4,9 @@ import {VisaService} from "../../services/visa/visa.service";
 import {Visa} from "../../models/visa/visa";
 import {NotificationService} from '../../services/notification/notification.service';
 import {VISA_STATUS} from '../../utils/constants';
+import {DatePipe} from '@angular/common';
+import {Observable} from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 
 @Component({
@@ -21,17 +24,37 @@ export class VisaDetailsComponent implements OnInit {
   reviewed: boolean = false;
   comment!: string;
   isUpdatingStatus: boolean = false;
+  isLoading: boolean = true;
+  isApproving: boolean = false;
+  approveVisaForm!: FormGroup;
+  invalidDate: string = new Date().toLocaleString();
 
   constructor(
     private route: ActivatedRoute,
     private visaService: VisaService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dateFormatter: DatePipe,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
       this.reload(param.id);
-    })
+    });
+
+    this.approveVisaForm = this.fb.group({
+      visaNumber: [null, Validators.required ],
+      deliveryDate: [null, Validators.required],
+    });
+
+  }
+
+  get visaNumber() {
+    return this.approveVisaForm.get('visaNumber') ;
+  }
+
+  get deliveryDate() {
+    return this.approveVisaForm.get('deliveryDate') ;
   }
 
 
@@ -51,14 +74,29 @@ export class VisaDetailsComponent implements OnInit {
 
   updateStatus() {
     this.isUpdatingStatus = true;
-    this.visaService.updateStatus(this.visa.id, {
-      status: {
-        id: this.reviewed ? VISA_STATUS.VISASTATUS_ACCEPTED : VISA_STATUS.VISASTATUS_REJECTED
-      },
-      comment: this.comment
-    }).subscribe(() => {
-      this.notificationService.success('Visa Status update with success !');
+    let request: Observable<any>;
+    if (this.reviewed) {
+      if (this.approveVisaForm.invalid) {
+        this.approveVisaForm.markAllAsTouched();
+        this.approveVisaForm.updateValueAndValidity();
+        return;
+      }
+      request = this.visaService.approveVisaRequest(this.visa.id, {
+        visa_number: this.visaNumber?.value,
+        delivery_date: this.dateFormatter.transform(this.deliveryDate?.value, 'Y-m-d H:mm:ss')
+      });
+    }
+    else {
+      request =  this.visaService.updateStatus(this.visa.id, {
+        status: {id: VISA_STATUS.VISASTATUS_REJECTED},
+        comment: this.comment
+      });
+    }
+
+    request.subscribe(() => {
+      this.notificationService.success(this.reviewed ? 'Visa request approved with success !' : 'Visa Status update with success !');
       $('#updateStatusCloser').trigger('click');
+      $('#approveModalCloser').trigger('click');
       this.comment = '';
       this.isUpdatingStatus = false;
       this.reload(this.visa.id);
@@ -71,7 +109,8 @@ export class VisaDetailsComponent implements OnInit {
 
   reload(visaId: any) {
     this.visaService.getVisa(visaId).subscribe((data) => {
-      this.visa = data
+      this.visa = data;
+      this.isLoading = false;
     }, () =>{
       this.notFound = true;
     });
@@ -80,6 +119,20 @@ export class VisaDetailsComponent implements OnInit {
       this.documents = data.items;
       this.isLoadingDocuments = false;
     });
+  }
 
+  getVisaExpirationDate() {
+    return this.visa.visa?.expiry_date ? this.dateFormatter.transform(this.visa.visa?.expiry_date, "EEEE MMMM d y") : '--';
+  }
+
+  getVisaDeliveryDate() {
+    return this.visa.visa?.delivery_date ? this.dateFormatter.transform(this.visa.visa?.delivery_date, "EEEE MMMM d y") : '--';
+  }
+
+  visaIsExpired() {
+    if (this.visa.visa) {
+      return new Date(this.getVisaExpirationDate() as string) < new Date(new Date().toDateString())
+    }
+    return true;
   }
 }

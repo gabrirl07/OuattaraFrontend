@@ -14,6 +14,7 @@ import { VisaDetailsComponent } from './views/visa-details/visa-details.componen
 import { VisaOverviewComponent } from './views/visa-overview/visa-overview.component';
 import { ResellersListComponent } from './views/resellers-list/resellers-list.component';
 import { ResellersDetailsComponent } from './views/resellers-details/resellers-details.component';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,10 +33,11 @@ import { ResellersDetailsComponent } from './views/resellers-details/resellers-d
         ReactiveFormsModule,
         HttpClientModule,
         DataTablesModule,
-        FormsModule
+        FormsModule,
     ],
   providers: [
-    httpInterceptorProviders
+    httpInterceptorProviders,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

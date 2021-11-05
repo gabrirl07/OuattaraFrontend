@@ -42,10 +42,10 @@ export class ResellersDetailsComponent implements OnInit {
   }
 
   getFullName() {
-    if (!this.reseller || (!this.reseller?.name && !this.reseller?.surname)){
+    if (!this.reseller || (!this.reseller?.firstname && !this.reseller?.lastname)){
       return '--'
     }
-    return this.reseller?.name + ' ' + this.reseller?.surname;
+    return this.reseller?.firstname + ' ' + this.reseller?.lastname;
   }
 
   getState() {

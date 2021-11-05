@@ -42,5 +42,9 @@ export class VisaService {
     return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=1`);
   }
 
+  approveVisaRequest(visaId: string, details: any) {
+    return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/approve`, details);
+  }
+
 
 }

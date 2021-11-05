@@ -1,11 +1,15 @@
 export interface Agent {
     id: string
-    name: string,
-    surname: string,
+    firstname: string,
+    lastname: string,
     code: string,
     account: {
         email: string,
-    }
+    },
+    total_visarequest: number,
+    total_customer: number,
+    total_transaction: number,
+    total_balance: number,
 }
 
 export interface Transactions {

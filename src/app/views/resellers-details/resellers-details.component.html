@@ -36,13 +36,13 @@
                                         </div>
                                     </div>
                                     <div class="user-avatar-address">
-                                        <p class="border-bottom pb-3">
-                                            <span class="d-xl-inline-block d-block mb-2"><i class="fa fa-map-marker-alt mr-2 text-primary "></i>4045 Denver AvenueLos Angeles, CA 90017</span>
-                                            <span class="mb-2 ml-xl-4 d-xl-inline-block d-block">Joined date: N/A </span>
-                                            <span class=" mb-2 d-xl-inline-block d-block ml-xl-4">Gender: Male</span>
-<!--                                            <span class=" mb-2 d-xl-inline-block d-block ml-xl-4">N/A </span>-->
-                                        </p>
-                                        <div class="mt-3">
+<!--                                        <p class="border-bottom pb-3">-->
+<!--                                            <span class="d-xl-inline-block d-block mb-2"><i class="fa fa-map-marker-alt mr-2 text-primary "></i>4045 Denver AvenueLos Angeles, CA 90017</span>-->
+<!--                                            <span class="mb-2 ml-xl-4 d-xl-inline-block d-block">Joined date: N/A </span>-->
+<!--                                            <span class=" mb-2 d-xl-inline-block d-block ml-xl-4">Gender: Male</span>-->
+<!--&lt;!&ndash;                                            <span class=" mb-2 d-xl-inline-block d-block ml-xl-4">N/A </span>&ndash;&gt;-->
+<!--                                        </p>-->
+                                        <div class="mt-3 border-top pt-4">
                                             <span>Company : <a class="badge badge-light mr-1">N/A</a> </span>
                                             <span>Code : <a class="badge badge-light mr-1">{{ utilsService.preventNull(reseller?.code) }}</a> </span>
                                             <span>Email : <a class="badge badge-light">{{ utilsService.preventNull(reseller?.account?.email) }}</a> </span>
@@ -60,8 +60,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-inline-block">
-                            <h5 class="text-muted">Total Views</h5>
-                            <h2 class="mb-0">0</h2>
+                            <h5 class="text-muted">Balance</h5>
+                            <h2 class="mb-0">{{ reseller?.total_balance ? reseller?.total_balance : 0 }}</h2>
                         </div>
                         <div class="float-right icon-circle-medium  icon-box-lg  bg-info-light mt-1">
                             <i class="fa fa-eye fa-fw fa-sm text-info"></i>
@@ -79,8 +79,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-inline-block">
-                            <h5 class="text-muted">Total Followers</h5>
-                            <h2 class="mb-0">0</h2>
+                            <h5 class="text-muted">Visa requests</h5>
+                            <h2 class="mb-0">{{ reseller?.total_visarequest ? reseller?.total_visarequest : 0 }}</h2>
                         </div>
                         <div class="float-right icon-circle-medium  icon-box-lg  bg-primary-light mt-1">
                             <i class="fa fa-user fa-fw fa-sm text-primary"></i>
@@ -98,8 +98,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-inline-block">
-                            <h5 class="text-muted">Partnerships</h5>
-                            <h2 class="mb-0">0</h2>
+                            <h5 class="text-muted">Customer</h5>
+                            <h2 class="mb-0">{{ reseller?.total_customer ? reseller?.total_customer : 0 }}</h2>
                         </div>
                         <div class="float-right icon-circle-medium  icon-box-lg  bg-secondary-light mt-1">
                             <i class="fa fa-handshake fa-fw fa-sm text-secondary"></i>
@@ -117,8 +117,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-inline-block">
-                            <h5 class="text-muted">Total Earned</h5>
-                            <h2 class="mb-0">0</h2>
+                            <h5 class="text-muted">Transactions</h5>
+                            <h2 class="mb-0">{{ reseller?.total_transaction ? reseller?.total_transaction : 0 }}</h2>
                         </div>
                         <div class="float-right icon-circle-medium  icon-box-lg  bg-brand-light mt-1">
                             <i class="fa fa-money-bill-alt fa-fw fa-sm text-brand"></i>

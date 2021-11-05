@@ -25,16 +25,24 @@
             </div>
             <div class="text-center">
               <h2 class="font-24 mb-0">{{ getProfilName() }}</h2>
+              <div class="d-flex justify-content-center align-items-center pt-2">
+                <span *ngIf="visa?.latest_status?.status?.name && !visa?.visa" class="uk-label "  [ngStyle]="{'background-color': visa?.latest_status?.status?.color_code }">
+                        {{ visa?.latest_status?.status?.name }}
+                </span>
+                <span *ngIf="visa?.visa" class="uk-label" [class.uk-label-warning]="!visaIsExpired()" [class.uk-label-danger]="visaIsExpired()"  >
+                        {{ visaIsExpired() ? 'EXPIRED': 'IN PROGRESS' }}
+                </span>
+              </div>
             </div>
           </div>
-          <div class="card-body border-top">
-            <h3 class="font-16">Localisation</h3>
-            <div class="">
-              <ul class="list-unstyled mb-0">
-                <li class="mb-0"><i class="fas fa-fw fa-map-marker-alt mr-2"></i>--</li>
-              </ul>
-            </div>
-          </div>
+<!--          <div class="card-body border-top">-->
+<!--            <h3 class="font-16">Localisation</h3>-->
+<!--            <div class="">-->
+<!--              <ul class="list-unstyled mb-0">-->
+<!--                <li class="mb-0"><i class="fas fa-fw fa-map-marker-alt mr-2"></i>&#45;&#45;</li>-->
+<!--              </ul>-->
+<!--            </div>-->
+<!--          </div>-->
           <div class="card-body border-top profil-status">
             <h3 class="font-16">Status</h3>
             <div class="">
@@ -45,9 +53,12 @@
 <!--                    <div class="progress-bar" role="progressbar" style="width: 35%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
 <!--                  </div>-->
 <!--                </li>-->
-                <li class="mb-0">
-                  <a class="btn btn-success text-white" (click)="reviewed = true" data-toggle="modal" data-target="#updateStatusModal">Review</a>
+                <li class="mb-0" *ngIf="!visa?.visa">
+                  <a class="btn btn-success text-white" (click)="reviewed = true" data-toggle="modal" data-target="#approveModal">Approve</a>
                   <a class="btn btn-danger text-white" (click)="reviewed = false" data-toggle="modal" data-target="#updateStatusModal">Reject</a>
+                </li>
+                <li class="mb-0" *ngIf="visa?.visa">
+                    <span class="w-100 py-3 text-center uk-label uk-margin-auto-left uk-label-success" >VISA REQUEST APPROVED</span>
                 </li>
               </ul>
             </div>
@@ -75,6 +86,47 @@
                 </div>
               </div>
             </div>
+
+            <div class="modal fade" id="approveModal" tabindex="-1" role="dialog"  aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <form novalidate [formGroup]="approveVisaForm" [class.was-validated]="approveVisaForm.invalid" (submit)="updateStatus()">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" >{{ 'Approve Request' }}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="visa-id">Visa number</label>
+                        <input formControlName="visaNumber"  class="form-control" placeholder="Put the visa number here" id="visa-id" required="required" >
+                        <div *ngIf="visaNumber?.invalid && (visaNumber?.dirty || visaNumber?.touched)"
+                             class="invalid-feedback">
+                          <div *ngIf="visaNumber?.errors?.required">
+                            Visa number is required.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="visa-data">Delivery Date</label>
+                        <input formControlName="deliveryDate" type="date" class="form-control" placeholder="Put the delivery date here" [max]="invalidDate" id="visa-data" required="required" >
+                        <div *ngIf="deliveryDate?.invalid && (deliveryDate?.dirty || deliveryDate?.touched)"
+                             class="invalid-feedback">
+                          <div *ngIf="deliveryDate?.errors?.required">
+                            Delivery Date is required.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button id="approveModalCloser" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" ><span *ngIf="isApproving" class="btn-spinner dashboard-spinner spinner-xs"></span><span>Approve</span></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -92,6 +144,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" id="pills-msg-tab" data-toggle="pill" href="#pills-msg" role="tab" aria-controls="pills-msg" aria-selected="false">Documents</a>
+            </li>
+            <li class="nav-item" *ngIf="visa?.visa">
+              <a class="nav-link" id="pills-visa-tab" data-toggle="pill" href="#pills-visa" role="tab" aria-controls="pills-visa" aria-selected="false">Visa</a>
             </li>
           </ul>
           <div class="tab-content" id="pills-tabContent">
@@ -292,6 +347,32 @@
                 </div>
               </div>
               <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" *ngIf="visa?.visa" id="pills-visa" role="tabpanel" aria-labelledby="pills-visa-tab">
+              <div class="card">
+                <div class="card-body">
+                  <ul>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Visa number</span>
+                      <span class="social-sales-count text-dark">{{ preventNull(visa.visa?.visa_number) }}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Status</span>
+                      <span class="social-sales-count uk-label uk-margin-auto-left" [class.uk-label-warning]="!visaIsExpired()" [class.uk-label-danger]="visaIsExpired()"  >
+                      {{ visaIsExpired() ? 'EXPIRED': 'IN PROGRESS' }}
+                      </span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Delivery Date</span>
+                      <span class="social-sales-count text-dark">{{ getVisaDeliveryDate() }}</span>
+                    </li>
+                    <li class="list-group-item social-sales-content">
+                      <span class="social-sales-name">Expired Date</span>
+                      <span class="social-sales-count text-dark">{{ getVisaExpirationDate()}}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
