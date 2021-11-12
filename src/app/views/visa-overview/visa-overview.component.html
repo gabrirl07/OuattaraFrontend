@@ -68,50 +68,43 @@
               <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions">
                 <thead>
                 <tr>
-                  <th>#</th>
                   <th>Picture</th>
-                  <th>ID	</th>
                   <th>Costumer</th>
-                  <th>Reseller</th>
-                  <th>Visa type</th>
-                  <th>Created on	</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let visa of visas; let i = index;">
-                  <td>{{ i + 1 }}</td>
-                  <td><img class="visa-profil" [src]="getProfilPicture(visa)" alt=""></td>
-                  <td>#{{visa.id}}</td>
-                  <td>{{preventNull(visa.costumer?.firstname) + " " + preventNull(visa.costumer?.lastname) + ", " + preventNull(visa.costumer?.birth_country)}}</td>
-                  <td>{{preventNull(visa.reseller?.account?.email) + (visa.reseller?.agency?.name ? " / " + preventNull(visa.reseller?.agency?.name) : '')}}</td>
-                  <td>{{preventNull(visa.visa_type?.name)}}</td>
-                  <td>{{visa?.created_on | date: "dd-MM-yyyy à HH:mm:ss"}}</td>
-                  <td>
-                    <span *ngIf="visa.latest_status?.status?.name" class="uk-label uk-margin-auto-left" [ngStyle]="{'background-color': visa.latest_status?.status?.color_code }">
-                      {{ visa.latest_status?.status?.name }}
-                    </span>
-                    <span *ngIf="!visa.latest_status?.status?.name">
-                      N/A
-                    </span>
-                  </td>
-                  <td><button (click)="showDetails(visa.id)" class="btn btn-primary btn-xs">View</button></td>
-                </tr>
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>#</th>
-                  <th>Picture</th>
-                  <th>ID	</th>
-                  <th>Costumer</th>
+                  <th>Age</th>
                   <th>Reseller</th>
                   <th>Visa type</th>
                   <th>Created on</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
-                </tfoot>
+                </thead>
+                <tbody>
+                <tr *ngFor="let visa of visas; let i = index;">
+                  <td><img class="visa-profil" [src]="visa.picture" [alt]="visa.fullname"></td>
+                  <td>{{visa.customerProfile}}</td>
+                  <td>
+                    <div *ngIf="!visa.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                      <span class="text-primary">{{visa.customerAge}}</span>
+                    </div>
+                    <span *ngIf="visa.customerIsOld" >{{visa.customerAge}}</span>
+                  </td>
+                  <td>{{ visa.resellerProfile }}</td>
+                  <td>{{ visa.visaTypeDuration }}</td>
+                  <td>{{ visa.born }}</td>
+                  <td>
+                    <span *ngIf="visa.lastStatus" class="uk-label uk-margin-auto-left" [ngStyle]="{'background-color': visa.lastStatus.color }">
+                      {{ visa.lastStatus.label }}
+                    </span>
+                    <span *ngIf="!visa.lastStatus">
+                      N/A
+                    </span>
+                    <span *ngIf="visa.hasVisa" class="social-sales-count uk-label ml-2" [class.uk-label-warning]="!visa.isExpired()" [class.uk-label-danger]="visa.isExpired()"  >
+                      {{ visa.visaStatus }}
+                    </span>
+                  </td>
+                  <td><button (click)="showDetails(visa.instance.id)" class="btn btn-primary btn-xs">View</button></td>
+                </tr>
+                </tbody>
               </table>
               <nav *ngIf="pagination" aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">

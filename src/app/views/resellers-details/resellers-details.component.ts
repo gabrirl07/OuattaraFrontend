@@ -3,7 +3,7 @@ import {AgentsService} from '../../services/agents/agents.service';
 import {UtilsService} from '../../services/utils/utils.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NotificationService} from '../../services/notification/notification.service';
-import {Agent, Transactions, TransactionStatus, TransactionType} from '../../models/agent';
+import {Agent, Transactions, TransactionStatus, TransactionType} from '../../models/interfaces/agent';
 
 @Component({
   selector: 'app-resellers-details',

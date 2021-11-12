@@ -15,6 +15,10 @@ import { VisaOverviewComponent } from './views/visa-overview/visa-overview.compo
 import { ResellersListComponent } from './views/resellers-list/resellers-list.component';
 import { ResellersDetailsComponent } from './views/resellers-details/resellers-details.component';
 import {DatePipe} from '@angular/common';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [

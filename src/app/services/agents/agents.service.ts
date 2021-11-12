@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {AGENT_LIST_URL, TRANSACTION_URL} from '../../utils/constants';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Transactions} from '../../models/agent';
-import {HttpPaginateResponse} from '../../models/global';
+import {Transactions} from '../../models/interfaces/agent';
+import {HttpPaginateResponse} from '../../models/interfaces/global';
 
 @Injectable({
   providedIn: 'root'

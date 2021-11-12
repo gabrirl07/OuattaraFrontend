@@ -1,10 +1,17 @@
-import {Pagination} from '../global';
+import {Pagination} from './global';
 
 export interface Visa {
   id: string;
   created_on: string;
   costumer: any;
-  reseller: any;
+  reseller: {
+    account: {
+      email: string,
+    },
+    agency: {
+      name: string
+    }
+  };
   status_updates: any;
   visa_type: {
     id: string,
@@ -16,8 +23,7 @@ export interface Visa {
     visa_number: string,
     delivery_date: string,
     expiry_date: string,
-  },
-
+  }
 }
 
 export interface VisaList extends Pagination{

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../../services/auth/authentication.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {LoginErrors, UserToken} from "../../../models/auth";
+import {LoginErrors, UserToken} from "../../../models/interfaces/auth";
 import {TOKEN_KEY} from "../../../utils/constants";
 import {NotificationService} from "../../../services/notification/notification.service";
 

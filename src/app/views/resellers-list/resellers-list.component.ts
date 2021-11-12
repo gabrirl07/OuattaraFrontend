@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Pagination} from '../../models/global';
+import {Pagination} from '../../models/interfaces/global';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../services/notification/notification.service';
 import {AgentsService} from '../../services/agents/agents.service';
-import {Agent} from '../../models/agent';
+import {Agent} from '../../models/interfaces/agent';
 import {UtilsService} from '../../services/utils/utils.service';
 
 @Component({

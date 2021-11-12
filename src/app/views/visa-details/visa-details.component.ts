@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {VisaService} from "../../services/visa/visa.service";
-import {Visa} from "../../models/visa/visa";
+import {Visa} from "../../models/interfaces/visa";
 import {NotificationService} from '../../services/notification/notification.service';
 import {VISA_STATUS} from '../../utils/constants';
 import {DatePipe} from '@angular/common';
@@ -57,6 +57,10 @@ export class VisaDetailsComponent implements OnInit {
     return this.approveVisaForm.get('deliveryDate') ;
   }
 
+  get now() {
+    return new Date().toISOString().split("T")[0];
+  }
+
 
   getProfilName(){
     let firstname = this.visa?.costumer?.firstname ?? '';
@@ -83,7 +87,7 @@ export class VisaDetailsComponent implements OnInit {
       }
       request = this.visaService.approveVisaRequest(this.visa.id, {
         visa_number: this.visaNumber?.value,
-        delivery_date: this.dateFormatter.transform(this.deliveryDate?.value, 'Y-m-d H:mm:ss')
+        delivery_date: this.dateFormatter.transform(this.deliveryDate?.value, 'Y-mm-d hh:mm:ss')
       });
     }
     else {

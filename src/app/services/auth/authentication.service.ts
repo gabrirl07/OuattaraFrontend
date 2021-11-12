@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {EncryptService} from "../encrypt/encrypt.service";
-import {LoginPayload, UserToken} from "../../models/auth";
+import {LoginPayload, UserToken} from "../../models/interfaces/auth";
 import {Observable} from "rxjs";
 import {LOGIN_URL, TOKEN_KEY} from "../../utils/constants";
 import {environment} from "../../../environments/environment";

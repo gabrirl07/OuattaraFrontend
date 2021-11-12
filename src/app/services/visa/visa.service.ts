@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BASE_URL, VISA_LIST_URL} from "../../utils/constants";
-import {Visa, VisaList} from "../../models/visa/visa";
+import {Visa, VisaList} from "../../models/interfaces/visa";
 import {Observable} from "rxjs";
 
 @Injectable({

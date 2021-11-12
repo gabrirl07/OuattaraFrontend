@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Visa, VisaList} from '../../models/visa/visa';
+import {Visa, VisaList} from '../../models/interfaces/visa';
 import {VisaService} from "../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {Pagination} from '../../models/global';
+import {Pagination} from '../../models/interfaces/global';
 import {NotificationService} from '../../services/notification/notification.service';
+import {VisaRequest} from '../../models/classes/VisaRequest';
 
 @Component({
   selector: 'app-visa-overview',
@@ -12,7 +13,7 @@ import {NotificationService} from '../../services/notification/notification.serv
   styleUrls: ['./visa-overview.component.scss']
 })
 export class VisaOverviewComponent implements OnInit {
-  visas!: Visa[] | null;
+  visas!: VisaRequest[] | null;
   dtOptions: DataTables.Settings = {};
   stats: any;
   pagination!: Pagination | null;
@@ -27,7 +28,7 @@ export class VisaOverviewComponent implements OnInit {
       searching: false,
       ordering: false,
       paging: false,
-      info: false
+      info: false,
     };
 
     let request = [];
@@ -35,7 +36,7 @@ export class VisaOverviewComponent implements OnInit {
     request.push(this.visaService.getVisaList());
     forkJoin([...request]).subscribe((result) => {
       this.stats = result[0];
-      this.visas = result[1].items;
+      this.visas = result[1].items.map((visa: any) => new VisaRequest(visa));
       this.pagination = result[1]?._links ? {
         items_count: result[1]?.items_count,
         total_page: result[1]?.total_page,
@@ -65,7 +66,7 @@ export class VisaOverviewComponent implements OnInit {
       this.pagination = null;
       let request = this.isSearching ? this.visaService.filterVisaList({ name: this.search }, page) : this.visaService.getVisaList(page);
       request.subscribe((result) => {
-        this.visas = result.items;
+        this.visas = result.items.map((visa: any) => new VisaRequest(visa));
         this.pagination = result._links ? {
           items_count: result?.items_count,
           total_page: result?.total_page,

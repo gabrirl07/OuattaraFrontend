@@ -31,8 +31,8 @@
                             <table class="table table-striped table-bordered first" datatable [dtOptions]="dtOptions">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Surname</th>
+                                    <th>Firstname</th>
+                                    <th>Lastname</th>
                                     <th>Code</th>
                                     <th>Email</th>
                                 </tr>
@@ -45,14 +45,6 @@
                                     <td>{{ utilsService.preventNull(agent.account.email) }}</td>
                                 </tr>
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Surname</th>
-                                    <th>Code</th>
-                                    <th>Email</th>
-                                </tr>
-                                </tfoot>
                             </table>
                             <nav *ngIf="pagination" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-end">
