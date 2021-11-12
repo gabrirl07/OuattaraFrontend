@@ -1,4 +1,4 @@
-  {
+{
   "name": "ouattara",
   "version": "0.0.0",
   "scripts": {
@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.2.6",
     "@angular/router": "~11.2.6",
     "angular-datatables": "^12.0.0",
+    "angular2-multiselect-dropdown": "^5.0.4",
     "crypto-js": "^4.0.0",
     "datatables.net": "^1.10.20",
     "datatables.net-bs4": "^1.10.20",

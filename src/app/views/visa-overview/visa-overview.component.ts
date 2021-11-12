@@ -21,6 +21,13 @@ export class VisaOverviewComponent implements OnInit {
   isLoadingSearchResult: boolean = false;
   search: string = '';
   isSearching: boolean = false;
+  filterParam = {
+    date: false,
+    name: false
+  };
+  dropdownList : any[] = [];
+  selectedItems = [];
+  dropdownSettings: any;
 
   constructor(private visaService: VisaService, private router: Router, private notificationService: NotificationService) { }
 
@@ -32,12 +39,27 @@ export class VisaOverviewComponent implements OnInit {
       info: false,
     };
 
+    this.dropdownSettings = {
+      singleSelection: false,
+      text:"Select status",
+      selectAllText:'Select All',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+    };
+
     let request = [];
     request.push(this.visaService.getDashboardStats());
-    request.push(this.visaService.getVisaList());
+    request.push(this.visaService.requestVisa(this.buildRequest()));
+    request.push(this.visaService.getVisaStatus());
     forkJoin([...request]).subscribe((result) => {
       this.stats = result[0];
       this.seedTable(result[1]);
+      this.dropdownList = result[2].items.map((status: any) => {
+        return {
+          id: status.id,
+          itemName: status.name
+        }
+      });
     });
 
   }
@@ -46,52 +68,68 @@ export class VisaOverviewComponent implements OnInit {
     this.router.navigate([`/dashboard/visas/${visaId}`]);
   }
 
-  preventNull(value: any){
-    return value ? value : '--';
-  }
-
-
-  getProfilPicture(visa: any){
-    return visa?.costumer?.picture?.file ?? 'assets/images/avatar.png';
-  }
-
   updatePagination(page: any) {
-      this.visas = null;
-      this.pagination = null;
-      let request = this.isSearching
-          ? this.visaService.filterVisaList({ name: this.search }, page)
-          : this.visaService.getVisaList(page);
-      request.subscribe((result) => {
-        this.seedTable(result);
-      }, () => {
-        this.notificationService.error();
-        this.isLoadingSearchResult = false;
-      })
+      this.updateTable(this.buildRequest('', page))
   }
 
   createRange(number: number){
     return new Array(number);
   }
 
-  updateTableOnSearch() {
-    if (this.search) {
-      this.isSearching = true;
-      this.isLoadingSearchResult = true;
-      this.visaService.filterVisaList({
-        name: this.search
-      }).subscribe((result) => {
-        this.seedTable(result);
-      })
-    }
-    else  {
+  updateTable(url : string) {
+    this.visas = null;
+    this.pagination = null;
+    this.visaService.requestVisa(url).subscribe((result) => {
+      this.seedTable(result);
+    }, () => {
+      this.notificationService.error();
       this.isSearching = false;
-      this.updatePagination(1)
-    }
+      this.isLoadingSearchResult = false;
+    })
   }
 
   seedTable(data: HttpPaginateResponse) {
     this.visas = data.items.map((visa: any) => new VisaRequest(visa));
     this.pagination = new Paginations(data._links);
     this.isLoadingSearchResult = false;
+  }
+
+  clearFilter() {
+    this.selectedItems = [];
+    this.filterParam.date = false;
+    this.filterParam.name = false;
+  }
+
+  buildRequest(params: string = '', page: number = 1) {
+
+    let url = `${this.visaService.VISA_LIST_PAGINATION_URL}&page=${page}`;
+
+    if (this.search) {
+      this.isSearching = true;
+      this.isLoadingSearchResult = true;
+      url = `${url}&filter=${this.search}`
+    }
+
+    if (this.filterParam.name) {
+      url = `${url}&order_by_name=${1}`;
+    }
+
+
+    if (this.filterParam.date) {
+      url = `${url}&order_by_date=${1}`
+    }
+
+    if (params) {
+      url = `${url}&${params}`
+    }
+
+
+    if (this.selectedItems.length > 0) {
+      this.selectedItems.forEach((status: any) => {
+        url = `${url}&statuses=${status.id}`
+      });
+    }
+
+    return url;
   }
 }

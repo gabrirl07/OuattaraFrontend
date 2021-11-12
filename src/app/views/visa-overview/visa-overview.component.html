@@ -57,9 +57,12 @@
         <div class="card">
           <h5 class="card-header">Visa requests</h5>
           <div class="card-body">
-            <div class="table-filter-search">
-              <input [disabled]="!visas" type="text" [(ngModel)]="search" (keyup.enter)="updateTableOnSearch()" placeholder="Search here" class="form-control">
-              <button (click)="updateTableOnSearch()" [disabled]="isLoadingSearchResult" class="btn btn-primary btn-xs">Search</button>
+            <div class="table-filter-box d-flex justify-content-between align-items-center">
+              <button data-toggle="modal" data-target="#filterModal" class="btn btn-primary btn-xs">Filter</button>
+              <div class="table-filter-search">
+                <input [disabled]="!visas" type="text" [(ngModel)]="search" (keyup.enter)="updatePagination(1)" placeholder="Search here" class="form-control">
+                <button (click)="updatePagination(1)" [disabled]="isLoadingSearchResult" class="btn btn-primary btn-xs">Search</button>
+              </div>
             </div>
             <div *ngIf="visas" class="table-responsive">
               <div *ngIf="isLoadingSearchResult" class="table-filter-loader">
@@ -106,46 +109,40 @@
                 </tr>
                 </tbody>
               </table>
-<!--              <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"  aria-hidden="true">-->
-<!--                <div class="modal-dialog" role="document">-->
-<!--                  <form novalidate [formGroup]="approveVisaForm" [class.was-validated]="approveVisaForm.invalid" (submit)="updateStatus()">-->
-<!--                    <div class="modal-content">-->
-<!--                      <div class="modal-header">-->
-<!--                        <h5 class="modal-title" >{{ 'Approve Request' }}</h5>-->
-<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                          <span aria-hidden="true">&times;</span>-->
-<!--                        </button>-->
-<!--                      </div>-->
-<!--                      <div class="modal-body">-->
-<!--                        <div class="form-group">-->
-<!--                          <label for="visa-id">Visa number</label>-->
-<!--                          <input formControlName="visaNumber"  class="form-control" placeholder="Put the visa number here" id="visa-id" required="required" >-->
-<!--                          <div *ngIf="visaNumber?.invalid && (visaNumber?.dirty || visaNumber?.touched)"-->
-<!--                               class="invalid-feedback">-->
-<!--                            <div *ngIf="visaNumber?.errors?.required">-->
-<!--                              Visa number is required.-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                        <div class="form-group">-->
-<!--                          <label for="visa-data">Delivery Date</label>-->
-<!--                          <input formControlName="deliveryDate" type="date" class="form-control" placeholder="Put the delivery date here" [max]="now" id="visa-data" required="required" >-->
-<!--                          <div *ngIf="deliveryDate?.invalid && (deliveryDate?.dirty || deliveryDate?.touched)"-->
-<!--                               class="invalid-feedback">-->
-<!--                            <div *ngIf="deliveryDate?.errors?.required">-->
-<!--                              Delivery Date is required.-->
-<!--                            </div>-->
-<!--                          </div>-->
-<!--                        </div>-->
-<!--                      </div>-->
-<!--                      <div class="modal-footer">-->
-<!--                        <button id="approveModalCloser" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
-<!--                        <button type="submit" class="btn btn-primary" ><span *ngIf="isApproving" class="btn-spinner dashboard-spinner spinner-xs"></span><span>Approve</span></button>-->
-<!--                      </div>-->
-<!--                    </div>-->
-<!--                  </form>-->
-<!--                </div>-->
-<!--              </div>-->
+              <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" >Filter table</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label>Filter by</label>
+                        <div>
+                          <label class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" [(ngModel)]="filterParam.name" class="custom-control-input"><span class="custom-control-label">Custumer Name</span>
+                          </label>
+                          <label class="custom-control custom-checkbox custom-control-inline">
+                            <input type="checkbox" [(ngModel)]="filterParam.date" class="custom-control-input"><span class="custom-control-label">Date</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Status</label>
+                        <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"></angular2-multiselect>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-light mr-auto" (click)="clearFilter()">Clear the filter</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Quit</button>
+                      <button type="button" data-dismiss="modal" (click)="updatePagination(pagination?.currentPage)" class="btn btn-primary" >Filter</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <nav *ngIf="pagination" aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">

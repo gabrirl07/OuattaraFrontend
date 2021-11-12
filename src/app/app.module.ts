@@ -17,6 +17,8 @@ import { ResellersDetailsComponent } from './views/resellers-details/resellers-d
 import {DatePipe} from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
+
 
 registerLocaleData(localeFr);
 
@@ -31,14 +33,15 @@ registerLocaleData(localeFr);
     ResellersDetailsComponent,
   ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        SharedModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        DataTablesModule,
-        FormsModule,
-    ],
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    DataTablesModule,
+    AngularMultiSelectModule,
+    FormsModule,
+  ],
   providers: [
     httpInterceptorProviders,
     DatePipe

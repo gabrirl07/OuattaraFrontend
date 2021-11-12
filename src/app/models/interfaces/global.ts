@@ -4,6 +4,7 @@ export interface Pagination {
     first: string,
     last: string,
     next?: string,
+    self?: string,
 }
 
 export interface HttpPaginateResponse {

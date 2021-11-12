@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BASE_URL, VISA_LIST_URL} from "../../utils/constants";
+import {BASE_URL, STATUS_URL, VISA_LIST_URL} from '../../utils/constants';
 import {Visa, VisaList} from "../../models/interfaces/visa";
 import {Observable} from "rxjs";
 
@@ -10,7 +10,7 @@ import {Observable} from "rxjs";
 export class VisaService {
 
   public VISA_LIST_PAGINATION_STEP = 10;
-  private VISA_LIST_PAGINATION_URL = `${VISA_LIST_URL}?limit=${this.VISA_LIST_PAGINATION_STEP}`;
+  public VISA_LIST_PAGINATION_URL = `${VISA_LIST_URL}?limit=${this.VISA_LIST_PAGINATION_STEP}`;
 
 
   constructor(
@@ -42,8 +42,16 @@ export class VisaService {
     return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=1`);
   }
 
+  requestVisa(url: string) {
+    return this.httpClient.get<any>(url);
+  }
+
   approveVisaRequest(visaId: string, details: any) {
     return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/approve`, details);
+  }
+
+  getVisaStatus() {
+    return this.httpClient.get<any>(`${STATUS_URL}/?limit=10`);
   }
 
 

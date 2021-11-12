@@ -82,3 +82,8 @@ html, body, {
     pointer-events: none;
   }
 }
+
+.dropdown-list.tagToBody {
+  top: unset !important;
+  left: unset !important;
+}

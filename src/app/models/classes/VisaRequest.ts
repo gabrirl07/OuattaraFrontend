@@ -73,11 +73,10 @@ export class VisaRequest {
     }
 
     get visaStatus() {
-        return this.isExpired() ? 'EXPIRED' : 'IN PROGRESS';
+        return this.isExpired() ? 'EXPIRED' : 'IN USED';
     }
 
     get hasVisa() {
-        console.log(this.instance.visa, !!this.instance.visa);
         return !!this.instance.visa;
     }
 

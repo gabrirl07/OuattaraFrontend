@@ -28,6 +28,10 @@ export class Paginations {
         return this.extractFromUrl(this.links.prev).get('page');
     }
 
+    get currentPage() {
+        return this.extractFromUrl(this.links.self).get('page');
+    }
+
 // const urlSearchParams = new URLSearchParams(window.location.search);
 // const params = Object.fromEntries(urlSearchParams.entries());
 
