@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Pagination} from '../../models/interfaces/global';
+import {HttpPaginateResponse, Pagination} from '../../models/interfaces/global';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../services/notification/notification.service';
 import {AgentsService} from '../../services/agents/agents.service';
 import {Agent} from '../../models/interfaces/agent';
 import {UtilsService} from '../../services/utils/utils.service';
+import {Paginations} from '../../models/classes/Paginations';
+import {VisaRequest} from '../../models/classes/VisaRequest';
 
 @Component({
   selector: 'app-resellers-list',
@@ -16,7 +18,7 @@ export class ResellersListComponent implements OnInit {
   agents!: Agent[] | null;
   dtOptions: DataTables.Settings = {};
   stats: any;
-  pagination!: Pagination | null;
+  pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
   search: string = '';
   company: string = '';
@@ -33,15 +35,7 @@ export class ResellersListComponent implements OnInit {
     };
 
     this.agentService.getAllAgents().subscribe((result) => {
-      this.agents = result.items;
-      this.pagination = result?._links ? {
-        items_count: result?.items_count,
-        total_page: result?.total_page,
-        next: result?.next,
-        self: result?.self,
-        previous: result?.previous
-      } : null;
-      console.log(this.pagination);
+      this.seedTable(result);
     });
   }
 
@@ -52,17 +46,11 @@ export class ResellersListComponent implements OnInit {
   updatePagination(page: any) {
     this.agents = null;
     this.pagination = null;
-    let request = this.isSearching ? this.agentService.filterList({ query: this.search }, page) : this.agentService.getAllAgents(page);
+    let request = this.isSearching
+        ? this.agentService.filterList({ query: this.search }, page)
+        : this.agentService.getAllAgents(page);
     request.subscribe((result) => {
-      this.agents = result.items;
-      this.pagination = result._links ? {
-        items_count: result?.items_count,
-        total_page: result?.total_page,
-        next: result?.next,
-        self: result?.self,
-        previous: result?.previous
-      } : null;
-      this.isLoadingSearchResult = false;
+      this.seedTable(result);
     }, () => {
       this.notificationService.error();
       this.isLoadingSearchResult = false;
@@ -77,15 +65,7 @@ export class ResellersListComponent implements OnInit {
       this.agentService.filterList({
         name: this.search
       }).subscribe((result) => {
-        this.agents = result.items;
-        this.pagination = result._links ? {
-          items_count: result?.items_count,
-          total_page: result?.total_page,
-          next: result?.next,
-          self: result?.self,
-          previous: result?.previous
-        } : null;
-        this.isLoadingSearchResult = false;
+        this.seedTable(result);
       }, () => {
         this.notificationService.error();
         this.isLoadingSearchResult = false;
@@ -95,5 +75,11 @@ export class ResellersListComponent implements OnInit {
       this.isSearching = false;
       this.updatePagination(1)
     }
+  }
+
+  seedTable(data: HttpPaginateResponse) {
+    this.agents = data.items;
+    this.pagination = new Paginations(data._links);
+    this.isLoadingSearchResult = false;
   }
 }

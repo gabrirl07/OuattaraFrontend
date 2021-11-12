@@ -106,13 +106,52 @@
                 </tr>
                 </tbody>
               </table>
+<!--              <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"  aria-hidden="true">-->
+<!--                <div class="modal-dialog" role="document">-->
+<!--                  <form novalidate [formGroup]="approveVisaForm" [class.was-validated]="approveVisaForm.invalid" (submit)="updateStatus()">-->
+<!--                    <div class="modal-content">-->
+<!--                      <div class="modal-header">-->
+<!--                        <h5 class="modal-title" >{{ 'Approve Request' }}</h5>-->
+<!--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                          <span aria-hidden="true">&times;</span>-->
+<!--                        </button>-->
+<!--                      </div>-->
+<!--                      <div class="modal-body">-->
+<!--                        <div class="form-group">-->
+<!--                          <label for="visa-id">Visa number</label>-->
+<!--                          <input formControlName="visaNumber"  class="form-control" placeholder="Put the visa number here" id="visa-id" required="required" >-->
+<!--                          <div *ngIf="visaNumber?.invalid && (visaNumber?.dirty || visaNumber?.touched)"-->
+<!--                               class="invalid-feedback">-->
+<!--                            <div *ngIf="visaNumber?.errors?.required">-->
+<!--                              Visa number is required.-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                        <div class="form-group">-->
+<!--                          <label for="visa-data">Delivery Date</label>-->
+<!--                          <input formControlName="deliveryDate" type="date" class="form-control" placeholder="Put the delivery date here" [max]="now" id="visa-data" required="required" >-->
+<!--                          <div *ngIf="deliveryDate?.invalid && (deliveryDate?.dirty || deliveryDate?.touched)"-->
+<!--                               class="invalid-feedback">-->
+<!--                            <div *ngIf="deliveryDate?.errors?.required">-->
+<!--                              Delivery Date is required.-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="modal-footer">-->
+<!--                        <button id="approveModalCloser" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                        <button type="submit" class="btn btn-primary" ><span *ngIf="isApproving" class="btn-spinner dashboard-spinner spinner-xs"></span><span>Approve</span></button>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </form>-->
+<!--                </div>-->
+<!--              </div>-->
               <nav *ngIf="pagination" aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
-                  <li class="page-item" (click)="updatePagination(pagination.self - 1)" [class.disabled]="pagination.self === 1 || pagination.items_count === 1">
+                  <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">
                     <a class="page-link" tabindex="-1" >Previous</a>
                   </li>
-                  <li class="page-item" (click)="updatePagination(i + 1)" [class.active]="(i + 1) === pagination.self" *ngFor="let page of createRange(pagination.total_page); let i = index"><a class="page-link" >{{ i + 1 }}</a></li>
-                  <li class="page-item" (click)="updatePagination(pagination.next)" [class.disabled]="!pagination.next || pagination.items_count === 1">
+                  <li class="page-item" (click)="updatePagination(pagination.nextPage)" [class.disabled]="!pagination.hasNextPage">
                     <a class="page-link" >Next</a>
                   </li>
                 </ul>

@@ -3,9 +3,10 @@ import {Visa, VisaList} from '../../models/interfaces/visa';
 import {VisaService} from "../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {Pagination} from '../../models/interfaces/global';
+import {HttpPaginateResponse, Pagination} from '../../models/interfaces/global';
 import {NotificationService} from '../../services/notification/notification.service';
 import {VisaRequest} from '../../models/classes/VisaRequest';
+import {Paginations} from '../../models/classes/Paginations';
 
 @Component({
   selector: 'app-visa-overview',
@@ -16,7 +17,7 @@ export class VisaOverviewComponent implements OnInit {
   visas!: VisaRequest[] | null;
   dtOptions: DataTables.Settings = {};
   stats: any;
-  pagination!: Pagination | null;
+  pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
   search: string = '';
   isSearching: boolean = false;
@@ -36,14 +37,7 @@ export class VisaOverviewComponent implements OnInit {
     request.push(this.visaService.getVisaList());
     forkJoin([...request]).subscribe((result) => {
       this.stats = result[0];
-      this.visas = result[1].items.map((visa: any) => new VisaRequest(visa));
-      this.pagination = result[1]?._links ? {
-        items_count: result[1]?.items_count,
-        total_page: result[1]?.total_page,
-        next: result[1]?.next,
-        self: result[1]?.self,
-        previous: result[1]?.previous
-      } : null;
+      this.seedTable(result[1]);
     });
 
   }
@@ -64,17 +58,11 @@ export class VisaOverviewComponent implements OnInit {
   updatePagination(page: any) {
       this.visas = null;
       this.pagination = null;
-      let request = this.isSearching ? this.visaService.filterVisaList({ name: this.search }, page) : this.visaService.getVisaList(page);
+      let request = this.isSearching
+          ? this.visaService.filterVisaList({ name: this.search }, page)
+          : this.visaService.getVisaList(page);
       request.subscribe((result) => {
-        this.visas = result.items.map((visa: any) => new VisaRequest(visa));
-        this.pagination = result._links ? {
-          items_count: result?.items_count,
-          total_page: result?.total_page,
-          next: result?.next,
-          self: result?.self,
-          previous: result?.previous
-        } : null;
-        this.isLoadingSearchResult = false;
+        this.seedTable(result);
       }, () => {
         this.notificationService.error();
         this.isLoadingSearchResult = false;
@@ -92,23 +80,18 @@ export class VisaOverviewComponent implements OnInit {
       this.visaService.filterVisaList({
         name: this.search
       }).subscribe((result) => {
-        this.visas = result.items;
-        this.pagination = result._links ? {
-          items_count: result?.items_count,
-          total_page: result?.total_page,
-          next: result?.next,
-          self: result?.self,
-          previous: result?.previous
-        } : null;
-        this.isLoadingSearchResult = false;
-      }, () => {
-        this.notificationService.error();
-        this.isLoadingSearchResult = false;
+        this.seedTable(result);
       })
     }
     else  {
       this.isSearching = false;
       this.updatePagination(1)
     }
+  }
+
+  seedTable(data: HttpPaginateResponse) {
+    this.visas = data.items.map((visa: any) => new VisaRequest(visa));
+    this.pagination = new Paginations(data._links);
+    this.isLoadingSearchResult = false;
   }
 }

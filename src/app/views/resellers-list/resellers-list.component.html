@@ -46,13 +46,12 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <nav *ngIf="pagination" aria-label="Page navigation example">
+                            <nav *ngIf="pagination && agents.length >= 10" aria-label="Page navigation example">
                                 <ul class="pagination justify-content-end">
-                                    <li class="page-item" (click)="updatePagination(pagination.self - 1)" [class.disabled]="pagination.self === 1 || pagination.items_count === 1">
+                                    <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">
                                         <a class="page-link" tabindex="-1" >Previous</a>
                                     </li>
-                                    <li class="page-item" (click)="updatePagination(i + 1)" [class.active]="(i + 1) === pagination.self" *ngFor="let page of utilsService.createRange(pagination.total_page); let i = index"><a class="page-link" >{{ i + 1 }}</a></li>
-                                    <li class="page-item" (click)="updatePagination(pagination.next)" [class.disabled]="!pagination.next || pagination.items_count === 1">
+                                    <li class="page-item" (click)="updatePagination(pagination.nextPage)" [class.disabled]="!pagination.hasNextPage">
                                         <a class="page-link" >Next</a>
                                     </li>
                                 </ul>
