@@ -43,6 +43,10 @@ export class VisaRequest {
         return this.instance.costumer?.age >= 18;
     }
 
+     get customerHasAge() {
+        return !!this.instance.costumer?.age;
+    }
+
     get fullname() {
         return this.instance.costumer?.firstname + " " + this.instance.costumer?.lastname
     }

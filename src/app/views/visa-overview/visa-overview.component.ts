@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Visa, VisaList} from '../../models/interfaces/visa';
 import {VisaService} from "../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";

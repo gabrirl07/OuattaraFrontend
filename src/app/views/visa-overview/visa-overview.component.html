@@ -86,10 +86,13 @@
                   <td><img class="visa-profil" [src]="visa.picture" [alt]="visa.fullname"></td>
                   <td>{{visa.customerProfile}}</td>
                   <td>
-                    <div *ngIf="!visa.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                    <div *ngIf="visa.customerHasAge && !visa.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
                       <span class="text-primary">{{visa.customerAge}}</span>
                     </div>
-                    <span *ngIf="visa.customerIsOld" >{{visa.customerAge}}</span>
+                    <div *ngIf="!visa.customerHasAge" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                      <span class="text-primary">N/A</span>
+                    </div>
+                    <span *ngIf="visa.customerHasAge && visa.customerIsOld" >{{visa.customerAge}}</span>
                   </td>
                   <td>{{ visa.resellerProfile }}</td>
                   <td>{{ visa.visaTypeDuration }}</td>
