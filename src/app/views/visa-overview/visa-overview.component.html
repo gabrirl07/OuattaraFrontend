@@ -121,13 +121,13 @@
                   <td>{{ visa.visaTypeDuration }}</td>
                   <td>{{ visa.born }}</td>
                   <td>
-                    <span *ngIf="visa.lastStatus" class="uk-label uk-margin-auto-left" [ngStyle]="{'background-color': visa.lastStatus.color }">
+                    <span *ngIf="visa.lastStatus" class="uk-label" [ngStyle]="{'background-color': visa.lastStatus.color }">
                       {{ visa.lastStatus.label }}
                     </span>
                     <span *ngIf="!visa.lastStatus">
                       N/A
                     </span>
-                    <span *ngIf="visa.hasVisa" class="social-sales-count uk-label ml-2" [class.uk-label-warning]="!visa.isExpired()" [class.uk-label-danger]="visa.isExpired()"  >
+                    <span *ngIf="visa.hasVisa" class="uk-label ml-2" [class.uk-label-warning]="!visa.isExpired()" [class.uk-label-danger]="visa.isExpired()"  >
                       {{ visa.visaStatus }}
                     </span>
                   </td>

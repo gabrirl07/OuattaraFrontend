@@ -87,7 +87,7 @@ export class VisaDetailsComponent implements OnInit {
       }
       request = this.visaService.approveVisaRequest(this.visa.id, {
         visa_number: this.visaNumber?.value,
-        delivery_date: this.dateFormatter.transform(this.deliveryDate?.value, 'Y-mm-d hh:mm:ss')
+        delivery_date: this.dateFormatter.transform(this.deliveryDate?.value, 'YYYY-MM-dd hh:mm:ss')
       });
     }
     else {
