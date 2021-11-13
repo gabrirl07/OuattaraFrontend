@@ -1,13 +1,16 @@
 import {Visa} from '../interfaces/visa';
-import {DatePipe} from '@angular/common';
+import {ClassUtils} from './ClassUtils';
+import {Resellers} from './Resellers';
 
-export class VisaRequest {
+export class VisaRequest extends  ClassUtils {
 
     instance: Visa;
-    private datePipe: DatePipe = new DatePipe('fr');
+    reseller: Resellers;
 
     constructor(data: Visa) {
+        super();
         this.instance = data;
+        this.reseller = new Resellers(data.reseller);
     }
 
     get picture(){
@@ -51,9 +54,8 @@ export class VisaRequest {
         return this.instance.costumer?.firstname + " " + this.instance.costumer?.lastname
     }
 
-
     get resellerProfile() {
-        return this.instance.reseller?.account?.email + " " + (this.instance.reseller?.agency?.name ? (' / ' + this.instance.reseller?.agency?.name) : '');
+        return this.reseller.fullName;
     }
 
 
@@ -77,7 +79,7 @@ export class VisaRequest {
     }
 
     get visaStatus() {
-        return this.isExpired() ? 'EXPIRED' : 'IN USED';
+        return this.isExpired() ? 'EXPIRED' : 'IN USE';
     }
 
     get hasVisa() {

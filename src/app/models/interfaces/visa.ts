@@ -1,17 +1,11 @@
 import {Pagination} from './global';
+import {Agent} from './agent';
 
 export interface Visa {
   id: string;
   created_on: string;
   costumer: any;
-  reseller: {
-    account: {
-      email: string,
-    },
-    agency: {
-      name: string
-    }
-  };
+  reseller: Agent;
   status_updates: any;
   visa_type: {
     id: string,

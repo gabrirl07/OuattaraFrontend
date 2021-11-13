@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {VisaService} from "../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {HttpPaginateResponse, Pagination} from '../../models/interfaces/global';
+import {HttpPaginateResponse} from '../../models/interfaces/global';
 import {NotificationService} from '../../services/notification/notification.service';
 import {VisaRequest} from '../../models/classes/VisaRequest';
 import {Paginations} from '../../models/classes/Paginations';
+import {Resellers} from '../../models/classes/Resellers';
 
 @Component({
   selector: 'app-visa-overview',
@@ -19,7 +20,7 @@ export class VisaOverviewComponent implements OnInit {
   pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
   search: string = '';
-  isSearching: boolean = false;
+  isFiltering: boolean = false;
   filterParam = {
     date: false,
     name: false
@@ -76,13 +77,10 @@ export class VisaOverviewComponent implements OnInit {
   }
 
   updateTable(url : string) {
-    this.visas = null;
-    this.pagination = null;
     this.visaService.requestVisa(url).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
-      this.isSearching = false;
       this.isLoadingSearchResult = false;
     })
   }
@@ -104,15 +102,12 @@ export class VisaOverviewComponent implements OnInit {
     let url = `${this.visaService.VISA_LIST_PAGINATION_URL}&page=${page}`;
 
     if (this.search) {
-      this.isSearching = true;
-      this.isLoadingSearchResult = true;
       url = `${url}&filter=${this.search}`
     }
 
     if (this.filterParam.name) {
       url = `${url}&order_by_name=${1}`;
     }
-
 
     if (this.filterParam.date) {
       url = `${url}&order_by_date=${1}`
@@ -129,6 +124,9 @@ export class VisaOverviewComponent implements OnInit {
       });
     }
 
+    this.isLoadingSearchResult = true;
+
     return url;
   }
+
 }

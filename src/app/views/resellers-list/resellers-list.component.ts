@@ -6,7 +6,6 @@ import {AgentsService} from '../../services/agents/agents.service';
 import {Agent} from '../../models/interfaces/agent';
 import {UtilsService} from '../../services/utils/utils.service';
 import {Paginations} from '../../models/classes/Paginations';
-import {VisaRequest} from '../../models/classes/VisaRequest';
 
 @Component({
   selector: 'app-resellers-list',

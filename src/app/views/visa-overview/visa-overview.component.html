@@ -58,10 +58,33 @@
           <h5 class="card-header">Visa requests</h5>
           <div class="card-body">
             <div class="table-filter-box d-flex justify-content-between align-items-center">
-              <button data-toggle="modal" data-target="#filterModal" class="btn btn-primary btn-xs">Filter</button>
+              <button (click)="isFiltering = !isFiltering" data-toggle="collapse" data-target="#filterInputs" aria-expanded="false" aria-controls="filter-inputs" class="btn btn-primary btn-xs">{{ isFiltering ? 'Hide Filters' : 'More Filters' }}</button>
               <div class="table-filter-search">
                 <input [disabled]="!visas" type="text" [(ngModel)]="search" (keyup.enter)="updatePagination(1)" placeholder="Search here" class="form-control">
                 <button (click)="updatePagination(1)" [disabled]="isLoadingSearchResult" class="btn btn-primary btn-xs">Search</button>
+              </div>
+            </div>
+            <div class="collapse" id="filterInputs">
+              <div class="table-filter-inputs " [class.table-filter-inputs-disabled]="isLoadingSearchResult">
+                <div class="form-group">
+                  <label>Filter by</label>
+                  <div>
+                    <label class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" [(ngModel)]="filterParam.name" class="custom-control-input"><span class="custom-control-label">Custumer Name</span>
+                    </label>
+                    <label class="custom-control custom-checkbox custom-control-inline">
+                      <input type="checkbox" [(ngModel)]="filterParam.date" class="custom-control-input"><span class="custom-control-label">Date</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Status</label>
+                  <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"></angular2-multiselect>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-light mr-2" (click)="clearFilter()">Clear the filter</button>
+                  <button type="button" data-dismiss="modal" (click)="updatePagination(pagination?.currentPage)" class="btn btn-primary" >Apply</button>
+                </div>
               </div>
             </div>
             <div *ngIf="visas" class="table-responsive">
@@ -112,40 +135,6 @@
                 </tr>
                 </tbody>
               </table>
-              <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" >Filter table</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <div class="form-group">
-                        <label>Filter by</label>
-                        <div>
-                          <label class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" [(ngModel)]="filterParam.name" class="custom-control-input"><span class="custom-control-label">Custumer Name</span>
-                          </label>
-                          <label class="custom-control custom-checkbox custom-control-inline">
-                            <input type="checkbox" [(ngModel)]="filterParam.date" class="custom-control-input"><span class="custom-control-label">Date</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Status</label>
-                        <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"></angular2-multiselect>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-light mr-auto" (click)="clearFilter()">Clear the filter</button>
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Quit</button>
-                      <button type="button" data-dismiss="modal" (click)="updatePagination(pagination?.currentPage)" class="btn btn-primary" >Filter</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <nav *ngIf="pagination" aria-label="Page navigation example">
                 <ul class="pagination justify-content-end">
                   <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">
