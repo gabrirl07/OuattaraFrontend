@@ -6,14 +6,15 @@ import {Visa} from './Visa';
 export class VisaRequest extends  ClassUtils {
 
     instance: IVisaRequest;
-    reseller: Resellers;
+    reseller: Resellers | null = null;
     visa: Visa | null = null;
 
     constructor(data: IVisaRequest) {
         super();
         this.instance = data;
-        this.reseller = new Resellers(data.reseller);
-        this.reseller = new Resellers(data.reseller);
+        if (data.reseller) {
+            this.reseller = new Resellers(data.reseller);
+        }
         if (data.visa) {
             this.visa = new Visa(data.visa)
         }
@@ -69,7 +70,7 @@ export class VisaRequest extends  ClassUtils {
     }
 
     get resellerProfile() {
-        return this.reseller.fullName;
+        return this.reseller?.fullName;
     }
 
 

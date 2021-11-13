@@ -33,19 +33,19 @@
                                 </thead>
                                 <tbody>
                                 <tr *ngFor="let visa of visas" style="cursor: pointer">
-                                    <td>{{ visa.visaRequest.reseller.fullName }}</td>
-                                    <td>{{ visa.visaRequest.fullname }}</td>
-                                    <td>{{ visa.visaRequest.nationality }}</td>
+                                    <td>{{ visa.visaRequest?.reseller?.fullName }}</td>
+                                    <td>{{ visa.visaRequest?.fullname }}</td>
+                                    <td>{{ visa.visaRequest?.nationality }}</td>
                                     <td>
-                                        <div *ngIf="visa.visaRequest.customerHasAge && !visa.visaRequest.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
-                                            <span class="text-primary">{{visa.visaRequest.customerAge}}</span>
+                                        <div *ngIf="visa.visaRequest?.customerHasAge && !visa.visaRequest?.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                                            <span class="text-primary">{{visa.visaRequest?.customerAge}}</span>
                                         </div>
-                                        <div *ngIf="!visa.visaRequest.customerHasAge" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                                        <div *ngIf="!visa.visaRequest?.customerHasAge" style="padding: 6px;" class="float-right bg-primary-light mt-1">
                                             <span class="text-primary">N/A</span>
                                         </div>
-                                        <span *ngIf="visa.visaRequest.customerHasAge && visa.visaRequest.customerIsOld" >{{visa.visaRequest.customerAge}}</span>
+                                        <span *ngIf="visa.visaRequest?.customerHasAge && visa.visaRequest?.customerIsOld" >{{visa.visaRequest?.customerAge}}</span>
                                     </td>
-                                    <td>{{ visa.visaRequest.visaTypeDuration }}</td>
+                                    <td>{{ visa.visaRequest?.visaTypeDuration }}</td>
                                     <td>{{ visa.deliveryDate }}</td>
                                     <td>{{ visa.expirationDate }}</td>
                                     <td>

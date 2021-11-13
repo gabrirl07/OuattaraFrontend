@@ -5,17 +5,19 @@ import {VisaRequest} from './VisaRequest';
 export class Visa extends  ClassUtils {
 
     instance: IVisa;
-    visaRequest: VisaRequest;
+    visaRequest: VisaRequest | null = null;
     dateFormat: string = "EEEE d MMMM y";
 
     constructor(data: IVisa) {
         super();
         this.instance = data;
-        this.visaRequest = new VisaRequest(data.visa_request);
+        if (data.visa_request) {
+            this.visaRequest = new VisaRequest(data.visa_request);
+        }
     }
 
     get detailUrl() {
-        return `/dashboard/visa-requests/${this.visaRequest.id}`
+        return `/dashboard/visa-requests/${this.visaRequest?.id}`
     }
 
     get expirationDate() {
