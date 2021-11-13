@@ -3,7 +3,7 @@ import {AuthenticationService} from "../../../services/auth/authentication.servi
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {LoginErrors, UserToken} from "../../../models/interfaces/auth";
-import {TOKEN_KEY} from "../../../utils/constants";
+import {HOME_LINK, TOKEN_KEY} from '../../../utils/constants';
 import {NotificationService} from "../../../services/notification/notification.service";
 
 @Component({
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
     this.authService.userLogin(this.loginForm.value).subscribe(
       (response: UserToken) => {
         this.authService.storeEntry(TOKEN_KEY, response);
-        this.router.navigate(['/dashboard/visas']);
+        this.router.navigate([HOME_LINK]);
       },
       (error) => {
         this.isLoginInProgress = false;

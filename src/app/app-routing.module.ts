@@ -8,6 +8,7 @@ import {VisaDetailsComponent} from "./views/visa-request/visa-details/visa-detai
 import {ResellersListComponent} from './views/resellers-list/resellers-list.component';
 import {ResellersDetailsComponent} from './views/resellers-details/resellers-details.component';
 import {VisaListComponent} from './views/visa/visa-list/visa-list.component';
+import {CustomerListComponent} from './views/customer/customer-list/customer-list.component';
 
 const routes: Routes = [
   {
@@ -43,19 +44,26 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'dashboard/visas',
+    path: 'visas',
     data : {title : 'visas'},
     canActivate: [AuthGuard],
     component: DashboardComponent,
     children:[
       {
         path: '',
-        redirectTo: 'overview',
-        pathMatch: 'full',
-      },
-      {
-        path: 'overview',
         component: VisaListComponent
+      }
+    ]
+  },
+  {
+    path: 'costumers',
+    data : { title : 'costumers' },
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    children:[
+      {
+        path: '',
+        component: CustomerListComponent
       }
     ]
   },

@@ -2,22 +2,35 @@ import {IVisaRequest} from '../interfaces/visa';
 import {ClassUtils} from './ClassUtils';
 import {Resellers} from './Resellers';
 import {Visa} from './Visa';
+import {Customer} from './Customer';
+import {CUSTOMERS_LINK} from '../../utils/constants';
 
 export class VisaRequest extends  ClassUtils {
 
     instance: IVisaRequest;
     reseller: Resellers | null = null;
     visa: Visa | null = null;
+    customer: Customer | null = null;
 
     constructor(data: IVisaRequest) {
         super();
+
         this.instance = data;
+
         if (data.reseller) {
             this.reseller = new Resellers(data.reseller);
         }
         if (data.visa) {
             this.visa = new Visa(data.visa)
         }
+        if (data.costumer) {
+            console.log(data.costumer);
+            this.customer = new Customer(data.costumer)
+        }
+    }
+
+    get detailUrl() {
+        return `${CUSTOMERS_LINK}/${this.instance?.id}`
     }
 
     get id() {
@@ -25,7 +38,7 @@ export class VisaRequest extends  ClassUtils {
     }
 
     get picture(){
-        return this.instance?.costumer?.picture?.file ?? 'assets/images/avatar.png';
+        return this.customer?.picture;
     }
 
     get born(){
@@ -44,35 +57,32 @@ export class VisaRequest extends  ClassUtils {
     }
 
     get customerProfile() {
-        return this.instance.costumer?.firstname + " " + this.instance.costumer?.lastname + (this.instance.costumer?.birth_country ? (", " + this.instance.costumer?.birth_country) : '')
+        return this.customer?.profile
     }
 
     get customerAge() {
-        return this.instance.costumer?.age <= 1
-            ? ( this.instance.costumer?.age === 0 ? "moins d'un an" : '1 an')
-            : `${this.instance.costumer?.age} ans`
+        return this.customer?.age
     }
 
     get customerIsOld() {
-        return this.instance.costumer?.age >= 18;
+        return this.customer?.isOld;
     }
 
      get customerHasAge() {
-        return !!this.instance.costumer?.age;
+        return this.customer?.hasAge;
     }
 
     get fullname() {
-        return this.instance.costumer?.firstname + " " + this.instance.costumer?.lastname
+        return this.customer?.fullName;
     }
 
     get nationality() {
-        return this.instance.costumer?.birth_country ?? 'N/A';
+        return this.customer?.nationality;
     }
 
     get resellerProfile() {
         return this.reseller?.fullName;
     }
-
 
     get visaTypeDuration() {
         return this.instance.visa_type.name;
@@ -87,10 +97,7 @@ export class VisaRequest extends  ClassUtils {
     }
 
     isExpired() {
-        if (this.hasVisa) {
-            return this.visa?.expirationDate
-        }
-        return true;
+        return this.visa?.isExpired();
     }
 
     get visaStatus() {

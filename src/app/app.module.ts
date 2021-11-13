@@ -19,6 +19,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { VisaListComponent } from './views/visa/visa-list/visa-list.component';
+import { CustomerListComponent } from './views/customer/customer-list/customer-list.component';
 
 
 registerLocaleData(localeFr);
@@ -33,6 +34,7 @@ registerLocaleData(localeFr);
     ResellersListComponent,
     ResellersDetailsComponent,
     VisaListComponent,
+    CustomerListComponent,
   ],
     imports: [
     BrowserModule,

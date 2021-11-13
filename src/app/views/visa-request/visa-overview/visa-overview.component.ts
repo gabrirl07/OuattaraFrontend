@@ -6,6 +6,7 @@ import {HttpPaginateResponse} from '../../../models/interfaces/global';
 import {NotificationService} from '../../../services/notification/notification.service';
 import {VisaRequest} from '../../../models/classes/VisaRequest';
 import {Paginations} from '../../../models/classes/Paginations';
+import {VISA_REQUESTS_LINK, VISAS_LINK} from '../../../utils/constants';
 
 @Component({
   selector: 'app-visa-overview',
@@ -63,8 +64,12 @@ export class VisaOverviewComponent implements OnInit {
 
   }
 
+  goToVisas() {
+    this.router.navigate([`${VISAS_LINK}`]);
+  }
+
   showDetails(visaId: string) {
-    this.router.navigate([`/dashboard/visa-requests/${visaId}`]);
+    this.router.navigate([`${VISA_REQUESTS_LINK}/${visaId}`]);
   }
 
   updatePagination(page: any) {

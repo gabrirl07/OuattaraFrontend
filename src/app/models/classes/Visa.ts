@@ -1,6 +1,7 @@
 import {IVisa} from '../interfaces/visa';
 import {ClassUtils} from './ClassUtils';
 import {VisaRequest} from './VisaRequest';
+import {VISA_REQUESTS_LINK} from '../../utils/constants';
 
 export class Visa extends  ClassUtils {
 
@@ -17,7 +18,7 @@ export class Visa extends  ClassUtils {
     }
 
     get detailUrl() {
-        return `/dashboard/visa-requests/${this.visaRequest?.id}`
+        return `${VISA_REQUESTS_LINK}/${this.visaRequest?.id}`
     }
 
     get expirationDate() {
