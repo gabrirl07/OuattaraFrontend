@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpPaginateResponse, Pagination} from '../../models/interfaces/global';
+import {HttpPaginateResponse} from '../../models/interfaces/global';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../services/notification/notification.service';
 import {AgentsService} from '../../services/agents/agents.service';
@@ -23,7 +23,7 @@ export class ResellersListComponent implements OnInit {
   company: string = '';
   isSearching: boolean = false;
 
-  constructor(private agentService: AgentsService, public utilsService: UtilsService, private router: Router, private notificationService: NotificationService) { }
+  constructor(private resellerService: AgentsService, public utilsService: UtilsService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -33,22 +33,26 @@ export class ResellersListComponent implements OnInit {
       info: false
     };
 
-    this.agentService.getAllAgents().subscribe((result) => {
+    this.resellerService.requestResellers(this.buildRequestURL()).subscribe((result) => {
       this.seedTable(result);
     });
   }
 
   showDetails(resellerId: string) {
-    this.router.navigate([`/company/reselers/${resellerId}`]);
+    this.router.navigate([`/company/resellers/${resellerId}`]);
   }
 
   updatePagination(page: any) {
-    this.agents = null;
-    this.pagination = null;
-    let request = this.isSearching
-        ? this.agentService.filterList({ query: this.search }, page)
-        : this.agentService.getAllAgents(page);
-    request.subscribe((result) => {
+    this.resellerService.requestResellers(this.buildRequestURL('', page)).subscribe((result) => {
+      this.seedTable(result);
+    }, () => {
+      this.notificationService.error();
+      this.isLoadingSearchResult = false;
+    })
+  }
+
+  updateTable(url : string) {
+    this.resellerService.requestResellers(url).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
@@ -57,28 +61,23 @@ export class ResellersListComponent implements OnInit {
   }
 
 
-  updateTableOnSearch() {
-    if (this.search) {
-      this.isSearching = true;
-      this.isLoadingSearchResult = true;
-      this.agentService.filterList({
-        name: this.search
-      }).subscribe((result) => {
-        this.seedTable(result);
-      }, () => {
-        this.notificationService.error();
-        this.isLoadingSearchResult = false;
-      })
-    }
-    else  {
-      this.isSearching = false;
-      this.updatePagination(1)
-    }
-  }
-
   seedTable(data: HttpPaginateResponse) {
     this.agents = data.items;
     this.pagination = new Paginations(data._links);
     this.isLoadingSearchResult = false;
   }
+
+  buildRequestURL(params: string = '', page: number = 1) {
+
+    let url = `${this.resellerService.AGENT_LIST_PAGINATION_URL}&page=${page}`;
+
+    if (this.search) {
+      url = `${url}&filter=${this.search}`
+    }
+
+    this.isLoadingSearchResult = true;
+
+    return url;
+  }
+
 }

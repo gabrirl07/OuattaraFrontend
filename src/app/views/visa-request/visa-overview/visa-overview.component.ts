@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {VisaService} from "../../services/visa/visa.service";
+import {VisaService} from "../../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {HttpPaginateResponse} from '../../models/interfaces/global';
-import {NotificationService} from '../../services/notification/notification.service';
-import {VisaRequest} from '../../models/classes/VisaRequest';
-import {Paginations} from '../../models/classes/Paginations';
-import {Resellers} from '../../models/classes/Resellers';
+import {HttpPaginateResponse} from '../../../models/interfaces/global';
+import {NotificationService} from '../../../services/notification/notification.service';
+import {VisaRequest} from '../../../models/classes/VisaRequest';
+import {Paginations} from '../../../models/classes/Paginations';
 
 @Component({
   selector: 'app-visa-overview',
@@ -49,7 +48,7 @@ export class VisaOverviewComponent implements OnInit {
 
     let request = [];
     request.push(this.visaService.getDashboardStats());
-    request.push(this.visaService.requestVisa(this.buildRequest()));
+    request.push(this.visaService.requestVisa(this.buildRequestURL()));
     request.push(this.visaService.getVisaStatus());
     forkJoin([...request]).subscribe((result) => {
       this.stats = result[0];
@@ -65,15 +64,11 @@ export class VisaOverviewComponent implements OnInit {
   }
 
   showDetails(visaId: string) {
-    this.router.navigate([`/dashboard/visas/${visaId}`]);
+    this.router.navigate([`/dashboard/visa-requests/${visaId}`]);
   }
 
   updatePagination(page: any) {
-      this.updateTable(this.buildRequest('', page))
-  }
-
-  createRange(number: number){
-    return new Array(number);
+      this.updateTable(this.buildRequestURL('', page))
   }
 
   updateTable(url : string) {
@@ -97,9 +92,9 @@ export class VisaOverviewComponent implements OnInit {
     this.filterParam.name = false;
   }
 
-  buildRequest(params: string = '', page: number = 1) {
+  buildRequestURL(params: string = '', page: number = 1) {
 
-    let url = `${this.visaService.VISA_LIST_PAGINATION_URL}&page=${page}`;
+    let url = `${this.visaService.VISA_REQUEST_LIST_PAGINATION_URL}&page=${page}`;
 
     if (this.search) {
       url = `${url}&filter=${this.search}`

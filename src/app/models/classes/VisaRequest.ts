@@ -1,16 +1,26 @@
-import {Visa} from '../interfaces/visa';
+import {IVisaRequest} from '../interfaces/visa';
 import {ClassUtils} from './ClassUtils';
 import {Resellers} from './Resellers';
+import {Visa} from './Visa';
 
 export class VisaRequest extends  ClassUtils {
 
-    instance: Visa;
+    instance: IVisaRequest;
     reseller: Resellers;
+    visa: Visa | null = null;
 
-    constructor(data: Visa) {
+    constructor(data: IVisaRequest) {
         super();
         this.instance = data;
         this.reseller = new Resellers(data.reseller);
+        this.reseller = new Resellers(data.reseller);
+        if (data.visa) {
+            this.visa = new Visa(data.visa)
+        }
+    }
+
+    get id() {
+        return this.instance.id;
     }
 
     get picture(){
@@ -54,6 +64,10 @@ export class VisaRequest extends  ClassUtils {
         return this.instance.costumer?.firstname + " " + this.instance.costumer?.lastname
     }
 
+    get nationality() {
+        return this.instance.costumer?.birth_country ?? 'N/A';
+    }
+
     get resellerProfile() {
         return this.reseller.fullName;
     }
@@ -64,22 +78,22 @@ export class VisaRequest extends  ClassUtils {
     }
 
     get expirationDate() {
-        return this.instance.visa?.expiry_date ? this.datePipe.transform(this.instance.visa?.expiry_date, "EEEE MMMM d y") : '--';
+        return this.visa?.expirationDate;
     }
 
     get deliveryDate() {
-        return this.instance.visa?.delivery_date ? this.datePipe.transform(this.instance.visa?.delivery_date, "EEEE MMMM d y") : '--';
+        return this.visa?.deliveryDate;
     }
 
     isExpired() {
         if (this.hasVisa) {
-            return new Date(this.expirationDate as string) < new Date(new Date().toDateString())
+            return this.visa?.expirationDate
         }
         return true;
     }
 
     get visaStatus() {
-        return this.isExpired() ? 'EXPIRED' : 'IN USE';
+        return this.visa?.visaStatus;
     }
 
     get hasVisa() {

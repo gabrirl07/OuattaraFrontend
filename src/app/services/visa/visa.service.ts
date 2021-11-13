@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BASE_URL, STATUS_URL, VISA_LIST_URL} from '../../utils/constants';
-import {Visa, VisaList} from "../../models/interfaces/visa";
+import {BASE_URL, STATUS_URL, VISA_LIST_URL, VISA_REQUEST_LIST_URL} from '../../utils/constants';
+import {IVisaRequest} from "../../models/interfaces/visa";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 export class VisaService {
 
   public VISA_LIST_PAGINATION_STEP = 10;
+  public VISA_REQUEST_LIST_PAGINATION_URL = `${VISA_REQUEST_LIST_URL}?limit=${this.VISA_LIST_PAGINATION_STEP}`;
   public VISA_LIST_PAGINATION_URL = `${VISA_LIST_URL}?limit=${this.VISA_LIST_PAGINATION_STEP}`;
 
 
@@ -17,12 +18,8 @@ export class VisaService {
     private httpClient: HttpClient
   ) { }
 
-  getVisaList(page: any = 1): Observable<any> {
-    return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}`);
-  }
-
-  getVisa(visaId: string): Observable<Visa> {
-    return this.httpClient.get<Visa>(`${VISA_LIST_URL}/${visaId}`);
+  getVisa(visaId: string): Observable<IVisaRequest> {
+    return this.httpClient.get<IVisaRequest>(`${VISA_REQUEST_LIST_URL}/${visaId}`);
   }
 
   getDashboardStats(): Observable<any> {
@@ -30,16 +27,11 @@ export class VisaService {
   }
 
   getVisaDocuments(visaId: string): Observable<any> {
-    return this.httpClient.get<any>(`${VISA_LIST_URL}/${visaId}/passport/documents`);
+    return this.httpClient.get<any>(`${VISA_REQUEST_LIST_URL}/${visaId}/passport/documents`);
   }
 
   updateStatus(visaId: string, status: any): Observable<any> {
-    return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/status/update`, status);
-  }
-
-  filterVisaList(search: any, page: any = 1) {
-    if (search.name) return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=${page}&filter=${search.name}`);
-    return this.httpClient.get<any>(`${this.VISA_LIST_PAGINATION_URL}&page=1`);
+    return this.httpClient.post<any>(`${VISA_REQUEST_LIST_URL}/${visaId}/status/update`, status);
   }
 
   requestVisa(url: string) {
@@ -47,7 +39,7 @@ export class VisaService {
   }
 
   approveVisaRequest(visaId: string, details: any) {
-    return this.httpClient.post<any>(`${VISA_LIST_URL}/${visaId}/approve`, details);
+    return this.httpClient.post<any>(`${VISA_REQUEST_LIST_URL}/${visaId}/approve`, details);
   }
 
   getVisaStatus() {

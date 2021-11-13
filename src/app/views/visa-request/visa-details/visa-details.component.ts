@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {VisaService} from "../../services/visa/visa.service";
-import {Visa} from "../../models/interfaces/visa";
-import {NotificationService} from '../../services/notification/notification.service';
-import {VISA_STATUS} from '../../utils/constants';
+import {VisaService} from "../../../services/visa/visa.service";
+import {IVisaRequest} from "../../../models/interfaces/visa";
+import {NotificationService} from '../../../services/notification/notification.service';
+import {VISA_STATUS} from '../../../utils/constants';
 import {DatePipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -17,7 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class VisaDetailsComponent implements OnInit {
 
-  visa!: Visa;
+  visa!: IVisaRequest;
   notFound: boolean = false;
   documents: any[] = [];
   isLoadingDocuments: boolean = true;
