@@ -43,6 +43,7 @@ export class CustomerListComponent implements OnInit {
   }
 
   updateTable(url : string) {
+    this.isLoadingSearchResult = true;
     this.customerService.requestVisa(url).subscribe((result) => {
       this.seedTable(result);
     }, () => {
@@ -53,6 +54,7 @@ export class CustomerListComponent implements OnInit {
   seedTable(data: HttpPaginateResponse) {
     this.customers = data.items.map((customer: any) => new Customer(customer));
     this.pagination = new Paginations(data._links);
+    this.isLoadingSearchResult = false;
   }
 
 

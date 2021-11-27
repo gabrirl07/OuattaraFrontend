@@ -5,8 +5,8 @@ import {DashboardComponent} from './views/dashboard/dashboard.component';
 import {AuthGuard} from "./guards/auth/auth.guard";
 import {VisaOverviewComponent} from "./views/visa-request/visa-overview/visa-overview.component";
 import {VisaDetailsComponent} from "./views/visa-request/visa-details/visa-details.component";
-import {ResellersListComponent} from './views/resellers-list/resellers-list.component';
-import {ResellersDetailsComponent} from './views/resellers-details/resellers-details.component';
+import {ResellersListComponent} from './views/reseller/resellers-list/resellers-list.component';
+import {ResellersDetailsComponent} from './views/reseller/resellers-details/resellers-details.component';
 import {VisaListComponent} from './views/visa/visa-list/visa-list.component';
 import {CustomerListComponent} from './views/customer/customer-list/customer-list.component';
 

@@ -32,7 +32,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let visa of visas" style="cursor: pointer">
+                                <tr *ngFor="let visa of visas | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" style="cursor: pointer">
                                     <td>{{ visa.visaRequest?.reseller?.fullName }}</td>
                                     <td>{{ visa.visaRequest?.fullname }}</td>
                                     <td>{{ visa.visaRequest?.nationality }}</td>
@@ -57,16 +57,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <nav *ngIf="pagination" aria-label="Page navigation example">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">
-                                        <a class="page-link" tabindex="-1" >Previous</a>
-                                    </li>
-                                    <li class="page-item" (click)="updatePagination(pagination.nextPage)" [class.disabled]="!pagination.hasNextPage">
-                                        <a class="page-link" >Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <pagination-controls (pageChange)="updatePagination($event)"></pagination-controls>
                         </div>
                         <div *ngIf="!visas" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
                     </div>

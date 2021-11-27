@@ -3,9 +3,11 @@ import {Pagination} from '../interfaces/global';
 export class Paginations {
 
     private links: Pagination;
+    public perPage: number;
 
-    constructor(links: any) {
+    constructor(links: any, perPage: number = 10) {
         this.links = links;
+        this.perPage = perPage;
     }
 
     extractFromUrl(url: any) {
@@ -29,7 +31,11 @@ export class Paginations {
     }
 
     get currentPage() {
-        return this.extractFromUrl(this.links.self).get('page');
+        return Number(this.extractFromUrl(this.links.self).get('page'));
+    }
+
+    get total() {
+        return Number(this.extractFromUrl(this.links.last).get('page')) * this.perPage;
     }
 
 // const urlSearchParams = new URLSearchParams(window.location.search);

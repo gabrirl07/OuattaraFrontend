@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpPaginateResponse} from '../../models/interfaces/global';
+import {HttpPaginateResponse} from '../../../models/interfaces/global';
 import {Router} from '@angular/router';
-import {NotificationService} from '../../services/notification/notification.service';
-import {AgentsService} from '../../services/agents/agents.service';
-import {Agent} from '../../models/interfaces/agent';
-import {UtilsService} from '../../services/utils/utils.service';
-import {Paginations} from '../../models/classes/Paginations';
+import {NotificationService} from '../../../services/notification/notification.service';
+import {AgentsService} from '../../../services/agents/agents.service';
+import {Agent} from '../../../models/interfaces/agent';
+import {UtilsService} from '../../../services/utils/utils.service';
+import {Paginations} from '../../../models/classes/Paginations';
 
 @Component({
   selector: 'app-resellers-list',

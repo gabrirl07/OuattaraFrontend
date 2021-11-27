@@ -12,14 +12,15 @@ import {httpInterceptorProviders} from "./interceptors";
 import {DataTablesModule} from "angular-datatables";
 import { VisaDetailsComponent } from './views/visa-request/visa-details/visa-details.component';
 import { VisaOverviewComponent } from './views/visa-request/visa-overview/visa-overview.component';
-import { ResellersListComponent } from './views/resellers-list/resellers-list.component';
-import { ResellersDetailsComponent } from './views/resellers-details/resellers-details.component';
+import { ResellersListComponent } from './views/reseller/resellers-list/resellers-list.component';
+import { ResellersDetailsComponent } from './views/reseller/resellers-details/resellers-details.component';
 import {DatePipe} from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { VisaListComponent } from './views/visa/visa-list/visa-list.component';
 import { CustomerListComponent } from './views/customer/customer-list/customer-list.component';
+import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
 
 
 registerLocaleData(localeFr);
@@ -45,6 +46,7 @@ registerLocaleData(localeFr);
     DataTablesModule,
     AngularMultiSelectModule,
     FormsModule,
+    NgxPaginationModule
   ],
   providers: [
     httpInterceptorProviders,

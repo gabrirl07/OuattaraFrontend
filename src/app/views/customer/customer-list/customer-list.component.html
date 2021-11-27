@@ -21,17 +21,35 @@
                                 <thead>
                                 <tr>
                                     <th>Picture</th>
-                                    <th>FirstName</th>
-                                    <th>LastName</th>
+                                    <th>Fullname</th>
+                                    <th>Middlename</th>
+                                    <th>Profession</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Marital Status</th>
+                                    <th>Birth Date</th>
                                     <th>Age</th>
-                                    <th>Nationality</th>
+                                    <th>Father name</th>
+                                    <th>Mother name</th>
+                                    <th>Spouse name</th>
+                                    <th>Religion</th>
+                                    <th>Language</th>
+                                    <th>Birth Country</th>
+                                    <th>Current Nationality</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let customer of customers" style="cursor: pointer">
+                                <tr *ngFor="let customer of customers | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" style="cursor: pointer">
                                     <td><img class="visa-profil" [src]="customer.picture" [alt]="customer.fullName"></td>
-                                    <td>{{ customer.firstName }}</td>
-                                    <td>{{ customer.lastName }}</td>
+                                    <td>{{ customer.fullName }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.middlename, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.profession, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.phone_number, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.email, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.gender, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.marital_status, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.birth_date, 'N/A') }}</td>
                                     <td>
                                         <div *ngIf="customer.hasAge && !customer.isOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
                                             <span class="text-primary">{{customer.age}}</span>
@@ -41,20 +59,17 @@
                                         </div>
                                         <span *ngIf="customer.hasAge && customer.isOld" >{{customer.age}}</span>
                                     </td>
+                                    <td>{{ utilsService.preventNull(customer.instance.father_name, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.mother_name, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.husband_name, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.religion, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.language, 'N/A') }}</td>
+                                    <td>{{ utilsService.preventNull(customer.instance.birth_country, 'N/A') }}</td>
                                     <td>{{ customer.nationality }}</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <nav *ngIf="pagination" aria-label="Page navigation example">
-                                <ul class="pagination justify-content-end">
-                                    <li class="page-item" (click)="updatePagination(pagination.prevPage)" [class.disabled]="!pagination.hasPrevPage">
-                                        <a class="page-link" tabindex="-1" >Previous</a>
-                                    </li>
-                                    <li class="page-item" (click)="updatePagination(pagination.nextPage)" [class.disabled]="!pagination.hasNextPage">
-                                        <a class="page-link" >Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <pagination-controls (pageChange)="updatePagination($event)"></pagination-controls>
                         </div>
                         <div *ngIf="!customers" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
                     </div>

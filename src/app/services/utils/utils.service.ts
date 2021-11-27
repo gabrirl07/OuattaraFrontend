@@ -8,8 +8,8 @@ export class UtilsService {
 
   constructor(private router: Router) { }
 
-  preventNull(value: any){
-    return value ? value : '--';
+  preventNull(value: any, placeholder = '--'){
+    return value ? value : placeholder;
   }
 
   createRange(number: number){
