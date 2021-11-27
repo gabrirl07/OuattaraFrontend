@@ -52,6 +52,10 @@
         </div>
       </div>
     </div>
+    <div *ngIf="pendingRequest > 0" class="alert alert-primary d-flex align-items-center justify-content-between" role="alert">
+      <span>There are {{stats?.pending_visarequests }} new(s) request(s). </span>
+      <button (click)="showPendingRequest()" class="btn btn-primary btn-xs">See All</button>
+    </div>
     <div class="row">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">

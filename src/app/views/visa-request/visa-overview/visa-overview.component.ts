@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {VisaService} from "../../../services/visa/visa.service";
 import { Router} from "@angular/router";
 import {forkJoin} from "rxjs";
-import {HttpPaginateResponse} from '../../../models/interfaces/global';
+import {GlobalStats, HttpPaginateResponse} from '../../../models/interfaces/global';
 import {NotificationService} from '../../../services/notification/notification.service';
 import {VisaRequest} from '../../../models/classes/VisaRequest';
 import {Paginations} from '../../../models/classes/Paginations';
@@ -16,7 +16,7 @@ import {VISA_REQUESTS_LINK, VISAS_LINK} from '../../../utils/constants';
 export class VisaOverviewComponent implements OnInit {
   visas!: VisaRequest[] | null;
   dtOptions: DataTables.Settings = {};
-  stats: any;
+  stats!: GlobalStats;
   pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
   search: string = '';
@@ -26,7 +26,7 @@ export class VisaOverviewComponent implements OnInit {
     name: false
   };
   dropdownList : any[] = [];
-  selectedItems = [];
+  selectedItems: any[] = [];
   dropdownSettings: any;
 
   constructor(private visaService: VisaService, private router: Router, private notificationService: NotificationService) { }
@@ -62,6 +62,17 @@ export class VisaOverviewComponent implements OnInit {
       });
     });
 
+  }
+
+  get pendingRequest() {
+    return this.stats?.pending_visarequests ? this.stats?.pending_visarequests : 0;
+  }
+
+  showPendingRequest() {
+    let status = this.dropdownList.find((state) => state.itemName == 'NEW');
+    this.clearFilter();
+    this.selectedItems.push(status);
+    this.updatePagination(1);
   }
 
   goToVisas() {

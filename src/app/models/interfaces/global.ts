@@ -13,3 +13,14 @@ export interface HttpPaginateResponse {
 }
 
 
+export interface GlobalStats {
+    costumers: number,
+    resellers: number,
+    pending_visarequests: number,
+    operations: number,
+    agencies: number,
+    visarequests: number,
+    visas: number,
+}
+
+
