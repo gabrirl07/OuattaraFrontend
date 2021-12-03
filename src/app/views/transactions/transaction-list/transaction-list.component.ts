@@ -7,6 +7,7 @@ import {HttpPaginateResponse} from '../../../models/interfaces/global';
 import {TransactionsService} from '../../../services/transactions/transactions.service';
 import {Transaction as TransactionClass} from '../../../models/classes/Transaction';
 import {Transactions as ITransaction} from '../../../models/interfaces/agent';
+import {AgentsService} from '../../../services/agents/agents.service';
 
 @Component({
   selector: 'app-transaction-list',
@@ -19,9 +20,16 @@ export class TransactionListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
+  documents: any[] = [];
+  hasLoadDocument: boolean = false;
+  isLoadingDocuments: boolean = false;
+  isLoadingDetails: boolean = false;
+  isLoading: boolean = false;
+  currentTransaction!: TransactionClass;
 
   constructor(
       public transactionService: TransactionsService,
+      public agentService: AgentsService,
       public utilsService: UtilsService, private router: Router, private notificationService: NotificationService
   ) { }
 
@@ -68,5 +76,38 @@ export class TransactionListComponent implements OnInit {
     return url;
   }
 
+
+  loadDocuments() {
+    if (!this.hasLoadDocument) {
+      this.isLoadingDocuments = true;
+      this.agentService.getTransactionDocuments(this.currentTransaction.id).subscribe((data) => {
+        this.documents = data.items;
+        this.isLoadingDocuments = false;
+        this.hasLoadDocument = true;
+      });
+    }
+  }
+
+  showDetails(transaction: TransactionClass) {
+    if (transaction.isDepositTransaction){
+      if (this.currentTransaction?.id !== transaction?.id) {
+        this.isLoadingDetails = true;
+        this.transactionService.getTransaction(transaction.id).subscribe((data) => {
+          this.currentTransaction = new TransactionClass(data);
+          this.isLoadingDetails = false;
+        });
+      }
+    }
+  }
+
+  approveTransaction(transaction: TransactionClass) {
+    this.isLoading = true;
+    this.transactionService.approveTransaction(transaction.id).subscribe((data) => {
+      this.transactionService.getTransaction(transaction.id).subscribe((data) => {
+        this.currentTransaction = new TransactionClass(data);
+        this.isLoading = false;
+      });
+    });
+  }
 
 }

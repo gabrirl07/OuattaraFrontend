@@ -20,6 +20,7 @@
                             <table class="table table-striped table-bordered first" datatable [dtOptions]="dtOptions">
                                 <thead>
                                 <tr>
+                                    <th>Type</th>
                                     <th>Reseller</th>
                                     <th>Amount</th>
                                     <th>Reason</th>
@@ -27,8 +28,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr *ngFor="let transaction of transactions | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" style="cursor: pointer">
-                                    <td>{{ utilsService.preventNull(transaction.reseller?.fullName, 'N/A') }}</td>
+                                <tr data-toggle="modal" [attr.data-target]="transaction.isDepositTransaction ? '#depositDetail' : ''" *ngFor="let transaction of transactions | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" (click)="showDetails(transaction)" style="cursor: pointer">
+                                    <td class="d-flex align-items-center ">
+                                        <div *ngIf="transaction.isDepositTransaction" class="text-primary mt-1">
+                                            Deposit
+                                        </div>
+                                        <div *ngIf="transaction.isWithdrawTransaction" class="text-success mt-1">
+                                            Withdraw
+                                        </div>
+                                    </td>
+                                    <td>{{ transaction.reseller?.fullName }}</td>
                                     <td>{{ transaction.amount }}</td>
                                     <td>{{ transaction.reason }}</td>
                                     <td>{{ transaction.date }}</td>
@@ -38,6 +47,88 @@
                             <pagination-controls (pageChange)="updatePagination($event)"></pagination-controls>
                         </div>
                         <div *ngIf="!transactions" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                    </div>
+                    <div class="modal fade transaction-modal" id="depositDetail" tabindex="-1" role="dialog"  aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" [class.default-loading-effect]="isLoading">
+                                <div class="modal-body" >
+                                    <div class="tab-regular">
+                                        <ul class="nav nav-tabs nav-fill" id="myTab7" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#transaction-details" role="tab" aria-controls="home" aria-selected="true">Details</a>
+                                            </li>
+                                            <li (click)="loadDocuments()" class="nav-item">
+                                                <a class="nav-link" id="doc-tab-justify"  data-toggle="tab" href="#transaction-doc" role="tab" aria-controls="profile" aria-selected="false">Document</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link " id="profile-tab-justify" data-toggle="tab" href="#transaction-owner" role="tab" aria-controls="home" aria-selected="true">Reseller</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane fade show active" id="transaction-details" role="tabpanel" aria-labelledby="home-tab-justify">
+                                                <ul *ngIf="!isLoadingDetails" class="list-group list-group-flush">
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Type</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.label }}</span>
+                                                    </li>
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Reason</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.reason }}</span>
+                                                    </li>
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Date</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.date }}</span>
+                                                    </li>
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Amount</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.amount }}</span>
+                                                    </li>
+                                                </ul>
+                                                <div *ngIf="isLoadingDetails" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                                            </div>
+                                            <div class="tab-pane fade" id="transaction-doc" role="tabpanel" aria-labelledby="doc-tab-justify">
+                                                <div *ngIf="!isLoadingDocuments && documents.length > 0" class="row">
+                                                    <div *ngFor="let doc of documents" class="col-xl-3 col-lg-6 col-md-6 col-sm-12 col-12">
+                                                        <div class="card card-figure">
+                                                            <figure class="figure">
+                                                                <div class="figure-attachment">
+                                                                    <a [href]="doc.file" data-toggle="lightbox" data-gallery="profil-doc-gallery" >
+                                                                        <img [src]="doc.file" alt="Card image cap" class="img-fluid">
+                                                                    </a>
+                                                                </div>
+                                                            </figure>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="!isLoadingDocuments && documents.length === 0" class="row">
+                                                    <div class="empty  pt-4 text-center flex-grow-1">
+                                                        <div class="msg"><p><i class="fas fa-info-circle mr-2 "></i>This transaction have no document</p></div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                                            </div>
+                                            <div class="tab-pane fade" id="transaction-owner" role="tabpanel" aria-labelledby="profile-tab-justify">
+                                                <ul *ngIf="!isLoadingDetails" class="list-group list-group-flush">
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Approved By</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.approvedBy }}</span>
+                                                    </li>
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Approved On</span>
+                                                        <span class="social-sales-count text-dark">{{ currentTransaction?.approvedDate }}</span>
+                                                    </li>
+                                                </ul>
+                                                <div *ngIf="isLoadingDetails" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button *ngIf="!currentTransaction?.isApproved && !isLoadingDetails" (click)="approveTransaction(currentTransaction)" type="button" class="btn btn-primary text-uppercase">Approved</button>
+                                    <button type="button" class="btn btn-secondary text-uppercase" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
