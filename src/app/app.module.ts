@@ -20,7 +20,8 @@ import localeFr from '@angular/common/locales/fr';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { VisaListComponent } from './views/visa/visa-list/visa-list.component';
 import { CustomerListComponent } from './views/customer/customer-list/customer-list.component';
-import {NgxPaginationModule} from 'ngx-pagination'; // <-- import the module
+import {NgxPaginationModule} from 'ngx-pagination';
+import { TransactionListComponent } from './views/transactions/transaction-list/transaction-list.component'; // <-- import the module
 
 
 registerLocaleData(localeFr);
@@ -36,6 +37,7 @@ registerLocaleData(localeFr);
     ResellersDetailsComponent,
     VisaListComponent,
     CustomerListComponent,
+    TransactionListComponent,
   ],
     imports: [
     BrowserModule,

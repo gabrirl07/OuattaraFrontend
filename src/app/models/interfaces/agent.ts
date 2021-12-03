@@ -19,6 +19,12 @@ export interface Transactions {
     motive: string,
     type: TransactionType,
     status: TransactionStatus,
+    user: {
+        id: string,
+        email: string,
+        reseller: Agent,
+        roles: string[]
+    }
 }
 
 

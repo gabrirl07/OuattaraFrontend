@@ -1,19 +1,19 @@
-import {IVisa} from '../interfaces/visa';
+import {IVisa, IVisaRequest} from '../interfaces/visa';
 import {ClassUtils} from './ClassUtils';
 import {VisaRequest} from './VisaRequest';
-import {VISA_REQUESTS_LINK} from '../../utils/constants';
+import {DATE_FORMAT, VISA_REQUESTS_LINK} from '../../utils/constants';
 
 export class Visa extends  ClassUtils {
 
     instance: IVisa;
     visaRequest: VisaRequest | null = null;
-    dateFormat: string = "EEEE d MMMM y";
+    dateFormat: string = DATE_FORMAT;
 
-    constructor(data: IVisa) {
+    constructor(data: IVisa, visa_request?: IVisaRequest) {
         super();
         this.instance = data;
-        if (data.visa_request) {
-            this.visaRequest = new VisaRequest(data.visa_request);
+        if (visa_request) {
+            this.visaRequest = new VisaRequest(visa_request, visa_request?.reseller, this, visa_request?.costumer);
         }
     }
 

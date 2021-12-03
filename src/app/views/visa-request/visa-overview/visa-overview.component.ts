@@ -7,6 +7,8 @@ import {NotificationService} from '../../../services/notification/notification.s
 import {VisaRequest} from '../../../models/classes/VisaRequest';
 import {Paginations} from '../../../models/classes/Paginations';
 import {VISA_REQUESTS_LINK, VISAS_LINK} from '../../../utils/constants';
+import {IVisaRequest} from '../../../models/interfaces/visa';
+import {Visa} from '../../../models/classes/Visa';
 
 @Component({
   selector: 'app-visa-overview',
@@ -97,7 +99,7 @@ export class VisaOverviewComponent implements OnInit {
   }
 
   seedTable(data: HttpPaginateResponse) {
-    this.visas = data.items.map((visa: any) => new VisaRequest(visa));
+    this.visas = data.items.map((visa: IVisaRequest) => new VisaRequest(visa, visa?.reseller, new Visa(visa.visa, visa), visa?.costumer));
     this.pagination = new Paginations(data._links);
     this.isLoadingSearchResult = false;
   }

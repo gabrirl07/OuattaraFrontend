@@ -6,6 +6,7 @@ import {VisaService} from '../../../services/visa/visa.service';
 import {Paginations} from '../../../models/classes/Paginations';
 import {Visa} from '../../../models/classes/Visa';
 import {HttpPaginateResponse} from '../../../models/interfaces/global';
+import {IVisa} from '../../../models/interfaces/visa';
 
 @Component({
   selector: 'app-visa-list',
@@ -51,7 +52,7 @@ export class VisaListComponent implements OnInit {
   }
 
   seedTable(data: HttpPaginateResponse) {
-    this.visas = data.items.map((visa: any) => new Visa(visa));
+    this.visas = data.items.map((visa: IVisa) => new Visa(visa, visa.visa_request));
     this.pagination = new Paginations(data._links);
   }
 

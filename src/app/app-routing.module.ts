@@ -9,6 +9,7 @@ import {ResellersListComponent} from './views/reseller/resellers-list/resellers-
 import {ResellersDetailsComponent} from './views/reseller/resellers-details/resellers-details.component';
 import {VisaListComponent} from './views/visa/visa-list/visa-list.component';
 import {CustomerListComponent} from './views/customer/customer-list/customer-list.component';
+import {TransactionListComponent} from './views/transactions/transaction-list/transaction-list.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,18 @@ const routes: Routes = [
       {
         path: '',
         component: CustomerListComponent
+      }
+    ]
+  },
+  {
+    path: 'transactions',
+    data : { title : 'transactions' },
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    children:[
+      {
+        path: '',
+        component: TransactionListComponent
       }
     ]
   },

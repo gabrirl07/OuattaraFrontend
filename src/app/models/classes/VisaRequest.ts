@@ -1,31 +1,31 @@
-import {IVisaRequest} from '../interfaces/visa';
+import {IVisa, IVisaRequest} from '../interfaces/visa';
 import {ClassUtils} from './ClassUtils';
 import {Resellers} from './Resellers';
 import {Visa} from './Visa';
 import {Customer} from './Customer';
 import {CUSTOMERS_LINK} from '../../utils/constants';
+import {Agent} from '../interfaces/agent';
+import {ICustomer} from '../interfaces/icustomer';
 
 export class VisaRequest extends  ClassUtils {
 
     instance: IVisaRequest;
     reseller: Resellers | null = null;
-    visa: Visa | null = null;
+    visa: Visa | null | undefined = null;
     customer: Customer | null = null;
 
-    constructor(data: IVisaRequest) {
+    constructor(data: IVisaRequest, reseller?: Agent, visa?: Visa, costumer?: ICustomer) {
         super();
 
         this.instance = data;
+        this.visa = visa;
 
-        if (data.reseller) {
-            this.reseller = new Resellers(data.reseller);
+        if (reseller) {
+            this.reseller = new Resellers(reseller);
         }
-        if (data.visa) {
-            this.visa = new Visa(data.visa)
-        }
-        if (data.costumer) {
-            console.log(data.costumer);
-            this.customer = new Customer(data.costumer)
+
+        if (costumer) {
+            this.customer = new Customer(costumer)
         }
     }
 

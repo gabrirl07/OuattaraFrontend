@@ -1,25 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import {Paginations} from '../../../models/classes/Paginations';
-import {Customer} from '../../../models/classes/Customer';
-import {HttpPaginateResponse} from '../../../models/interfaces/global';
 import {UtilsService} from '../../../services/utils/utils.service';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../../services/notification/notification.service';
-import {CustomerService} from '../../../services/customer/customer.service';
+import {HttpPaginateResponse} from '../../../models/interfaces/global';
+import {TransactionsService} from '../../../services/transactions/transactions.service';
+import {Transaction as TransactionClass} from '../../../models/classes/Transaction';
+import {Transactions as ITransaction} from '../../../models/interfaces/agent';
 
 @Component({
-  selector: 'app-customer-list',
-  templateUrl: './customer-list.component.html',
-  styleUrls: ['./customer-list.component.scss']
+  selector: 'app-transaction-list',
+  templateUrl: './transaction-list.component.html',
+  styleUrls: ['./transaction-list.component.scss']
 })
-export class CustomerListComponent implements OnInit {
+export class TransactionListComponent implements OnInit {
 
-  customers!: Customer[] | null;
+  transactions!: TransactionClass[] | null;
   dtOptions: DataTables.Settings = {};
   pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
 
-  constructor( private customerService: CustomerService, public utilsService: UtilsService, private router: Router, private notificationService: NotificationService) { }
+  constructor(
+      public transactionService: TransactionsService,
+      public utilsService: UtilsService, private router: Router, private notificationService: NotificationService
+  ) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -29,7 +33,7 @@ export class CustomerListComponent implements OnInit {
       info: false
     };
 
-    this.customerService.sendRequest(this.buildRequestURL()).subscribe((result) => {
+    this.transactionService.sendRequest(this.buildRequestURL()).subscribe((result) => {
       this.seedTable(result);
     });
   }
@@ -38,13 +42,9 @@ export class CustomerListComponent implements OnInit {
     this.updateTable(this.buildRequestURL(page))
   }
 
-  showDetails(url: string) {
-    this.router.navigate([url]);
-  }
-
   updateTable(url : string) {
     this.isLoadingSearchResult = true;
-    this.customerService.sendRequest(url).subscribe((result) => {
+    this.transactionService.sendRequest(url).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
@@ -52,15 +52,14 @@ export class CustomerListComponent implements OnInit {
   }
 
   seedTable(data: HttpPaginateResponse) {
-    this.customers = data.items.map((customer: any) => new Customer(customer));
+    this.transactions = data.items.map((transaction: ITransaction) => new TransactionClass(transaction, transaction.user.reseller));
     this.pagination = new Paginations(data._links);
     this.isLoadingSearchResult = false;
   }
 
-
   buildRequestURL( page: number = 1, params: string = '',) {
 
-    let url = `${this.customerService.CUSTOMER_LIST_PAGINATION_URL}&page=${page}`;
+    let url = `${this.transactionService.TRANSACTIONS_LIST_PAGINATION_URL}&page=${page}`;
 
     if (params) {
       url = `${url}&${params}`
@@ -68,5 +67,6 @@ export class CustomerListComponent implements OnInit {
 
     return url;
   }
+
 
 }

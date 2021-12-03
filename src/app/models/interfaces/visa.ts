@@ -10,7 +10,7 @@ export interface IVisaRequest {
   status_updates: any;
   visa_type: IVisaType;
   latest_status: any;
-  visa?: IVisa
+  visa: IVisa
 }
 
 export interface IVisa {
