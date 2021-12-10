@@ -16,8 +16,8 @@ export interface Transactions {
     id: string
     amount: number,
     transaction_date: string,
-    approved_on: string,
-    is_approved: string,
+    reviewed_on: string,
+    is_approved: boolean | null,
     motive: string,
     type: TransactionType,
     status: TransactionStatus,
@@ -27,7 +27,7 @@ export interface Transactions {
         reseller: Agent,
         roles: string[]
     },
-    approved_by: {
+    reviewed_by: {
         id: string,
         email: string,
         roles: string[]

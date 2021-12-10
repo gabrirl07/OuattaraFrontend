@@ -104,6 +104,20 @@ export class ResellersDetailsComponent implements OnInit {
       this.transactionService.getTransaction(transaction.id).subscribe((data) => {
         this.currentTransaction = new TransactionClass(data);
         this.isLoading = false;
+        this.isLoadingSearchResult = true;
+        this.updatePagination(this.pagination?.currentPage);
+      });
+    });
+  }
+
+  rejectTransaction(transaction: TransactionClass) {
+    this.isLoading = true;
+    this.transactionService.rejectTransaction(transaction.id).subscribe((data) => {
+      this.transactionService.getTransaction(transaction.id).subscribe((data) => {
+        this.currentTransaction = new TransactionClass(data);
+        this.isLoading = false;
+        this.isLoadingSearchResult = true;
+        this.updatePagination(this.pagination?.currentPage);
       });
     });
   }

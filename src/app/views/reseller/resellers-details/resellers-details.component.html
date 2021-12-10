@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="page-header">
-                    <h3 class="mb-2">Reseller?s</h3>
+                    <h3 class="mb-2">Resellers</h3>
                     <div class="page-breadcrumb">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
@@ -167,7 +167,11 @@
                                 <td>{{ transaction.amount }}</td>
                                 <td>{{ transaction.reason }}</td>
                                 <td>{{ transaction.date }}</td>
-                                <td>{{ transaction.status }}</td>
+                                <td>
+                                     <span [class.uk-label-success]="transaction.isApproved" [class.uk-label-warning]="transaction.isPending" [class.uk-label-danger]="transaction.isCanceled" class="social-sales-count uk-label">
+                                      {{ transaction.status }}
+                                    </span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -235,7 +239,8 @@
                                     </div>
                                 </div>
                             <div class="modal-footer">
-                                <button *ngIf="!currentTransaction?.isApproved && !isLoadingTransactionDetails" (click)="approveTransaction(currentTransaction)" type="button" class="btn btn-primary text-uppercase">Approved</button>
+                                <button *ngIf="currentTransaction?.isPending && !isLoadingTransactionDetails" (click)="rejectTransaction(currentTransaction)" type="button" class="btn btn-danger text-uppercase">Reject</button>
+                                <button *ngIf="currentTransaction?.isPending && !isLoadingTransactionDetails" (click)="approveTransaction(currentTransaction)" type="button" class="btn btn-primary text-uppercase">Approve</button>
                                 <button type="button" class="btn btn-secondary text-uppercase" data-dismiss="modal">Close</button>
                             </div>
                         </div>

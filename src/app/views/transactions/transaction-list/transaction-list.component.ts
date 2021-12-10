@@ -93,7 +93,7 @@ export class TransactionListComponent implements OnInit {
       if (this.currentTransaction?.id !== transaction?.id) {
         this.isLoadingDetails = true;
         this.transactionService.getTransaction(transaction.id).subscribe((data) => {
-          this.currentTransaction = new TransactionClass(data);
+          this.currentTransaction = new TransactionClass(data, data?.user?.reseller);
           this.isLoadingDetails = false;
         });
       }
@@ -104,8 +104,24 @@ export class TransactionListComponent implements OnInit {
     this.isLoading = true;
     this.transactionService.approveTransaction(transaction.id).subscribe((data) => {
       this.transactionService.getTransaction(transaction.id).subscribe((data) => {
-        this.currentTransaction = new TransactionClass(data);
-        this.isLoading = false;
+        this.currentTransaction = new TransactionClass(data, data?.user?.reseller);
+        this.transactionService.sendRequest(this.buildRequestURL()).subscribe((result) => {
+          this.seedTable(result);
+          this.isLoading = false;
+        });
+      });
+    });
+  }
+
+  rejectTransaction(transaction: TransactionClass) {
+    this.isLoading = true;
+    this.transactionService.rejectTransaction(transaction.id).subscribe((data) => {
+      this.transactionService.getTransaction(transaction.id).subscribe((data) => {
+        this.currentTransaction = new TransactionClass(data, data?.user?.reseller);
+        this.transactionService.sendRequest(this.buildRequestURL()).subscribe((result) => {
+          this.seedTable(result);
+          this.isLoading = false;
+        });
       });
     });
   }

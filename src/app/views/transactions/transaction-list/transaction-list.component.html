@@ -25,22 +25,28 @@
                                     <th>Amount</th>
                                     <th>Reason</th>
                                     <th>Date</th>
+                                    <th>Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr data-toggle="modal" [attr.data-target]="transaction.isDepositTransaction ? '#depositDetail' : ''" *ngFor="let transaction of transactions | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" (click)="showDetails(transaction)" style="cursor: pointer">
                                     <td class="d-flex align-items-center ">
                                         <div *ngIf="transaction.isDepositTransaction" class="text-primary mt-1">
-                                            Deposit
+                                            {{ transaction.isDepositTransactionLabel }}
                                         </div>
                                         <div *ngIf="transaction.isWithdrawTransaction" class="text-success mt-1">
-                                            Withdraw
+                                            {{ transaction.isWithdrawTransactionLabel }}
                                         </div>
                                     </td>
-                                    <td>{{ transaction.reseller?.fullName }}</td>
+                                    <td>{{ utilsService.preventNull(transaction.reseller?.fullName, 'N/A') }}</td>
                                     <td>{{ transaction.amount }}</td>
                                     <td>{{ transaction.reason }}</td>
                                     <td>{{ transaction.date }}</td>
+                                    <td>
+                                         <span [class.uk-label-success]="transaction.isApproved" [class.uk-label-warning]="transaction.isPending" [class.uk-label-danger]="transaction.isCanceled" class="social-sales-count uk-label">
+                                          {{ transaction.status }}
+                                        </span>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -60,8 +66,8 @@
                                             <li (click)="loadDocuments()" class="nav-item">
                                                 <a class="nav-link" id="doc-tab-justify"  data-toggle="tab" href="#transaction-doc" role="tab" aria-controls="profile" aria-selected="false">Document</a>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link " id="profile-tab-justify" data-toggle="tab" href="#transaction-owner" role="tab" aria-controls="home" aria-selected="true">Reseller</a>
+                                            <li *ngIf="!currentTransaction?.isPending" class="nav-item">
+                                                <a class="nav-link " id="profile-tab-justify" data-toggle="tab" href="#transaction-owner" role="tab" aria-controls="home" aria-selected="true">Review infos</a>
                                             </li>
                                         </ul>
                                         <div class="tab-content">
@@ -82,6 +88,10 @@
                                                     <li class="list-group-item social-sales-content">
                                                         <span class="social-sales-name">Amount</span>
                                                         <span class="social-sales-count text-dark">{{ currentTransaction?.amount }}</span>
+                                                    </li>
+                                                    <li class="list-group-item social-sales-content">
+                                                        <span class="social-sales-name">Reseller</span>
+                                                        <span class="social-sales-count text-dark">{{ utilsService.preventNull(currentTransaction?.reseller?.fullName, 'N/A') }}</span>
                                                     </li>
                                                 </ul>
                                                 <div *ngIf="isLoadingDetails" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
@@ -107,14 +117,14 @@
                                                 </div>
                                                 <div *ngIf="isLoadingDocuments" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
                                             </div>
-                                            <div class="tab-pane fade" id="transaction-owner" role="tabpanel" aria-labelledby="profile-tab-justify">
+                                            <div *ngIf="!currentTransaction?.isPending" class="tab-pane fade" id="transaction-owner" role="tabpanel" aria-labelledby="profile-tab-justify">
                                                 <ul *ngIf="!isLoadingDetails" class="list-group list-group-flush">
                                                     <li class="list-group-item social-sales-content">
-                                                        <span class="social-sales-name">Approved By</span>
+                                                        <span class="social-sales-name">Reviewed By</span>
                                                         <span class="social-sales-count text-dark">{{ currentTransaction?.approvedBy }}</span>
                                                     </li>
                                                     <li class="list-group-item social-sales-content">
-                                                        <span class="social-sales-name">Approved On</span>
+                                                        <span class="social-sales-name">Reviewed On</span>
                                                         <span class="social-sales-count text-dark">{{ currentTransaction?.approvedDate }}</span>
                                                     </li>
                                                 </ul>
@@ -124,7 +134,8 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button *ngIf="!currentTransaction?.isApproved && !isLoadingDetails" (click)="approveTransaction(currentTransaction)" type="button" class="btn btn-primary text-uppercase">Approved</button>
+                                    <button *ngIf="currentTransaction?.isPending && !isLoadingDetails" (click)="rejectTransaction(currentTransaction)" type="button" class="btn btn-danger text-uppercase">Reject</button>
+                                    <button *ngIf="currentTransaction?.isPending && !isLoadingDetails" (click)="approveTransaction(currentTransaction)" type="button" class="btn btn-primary text-uppercase">Approve</button>
                                     <button type="button" class="btn btn-secondary text-uppercase" data-dismiss="modal">Close</button>
                                 </div>
                             </div>

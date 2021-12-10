@@ -24,4 +24,8 @@ export class TransactionsService extends BaseService {
     return this.httpClient.post<Transactions>(`${TRANSACTION_URL}/${transactionId}/approve`, {});
   }
 
+  rejectTransaction(transactionId: string): Observable<Transactions> {
+    return this.httpClient.post<Transactions>(`${TRANSACTION_URL}/${transactionId}/disapprove`, {});
+  }
+
 }

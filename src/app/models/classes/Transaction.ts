@@ -49,24 +49,54 @@ export class Transaction extends  ClassUtils {
         return this.instance.type === TransactionType.DEPOSIT
     }
 
+    get isDepositTransactionLabel() {
+        return 'Deposit'
+    }
+
     get isWithdrawTransaction() {
         return this.instance.type === TransactionType.PAYMENT
     }
 
+    get isWithdrawTransactionLabel() {
+        return 'Withdrawal'
+    }
+
     get isApproved() {
-        return Boolean(this.instance?.is_approved)
+        return this.instance?.is_approved === true
+    }
+
+    get isPending() {
+        return this.instance?.is_approved === null || this.instance?.is_approved === undefined
+    }
+
+    get isCanceled() {
+        return this.instance?.is_approved === false
     }
 
     get status() {
+
+        if (this.isWithdrawTransaction) {
+            return '';
+        }
+
+        if (this.isApproved) {
+            return 'Approved';
+        }
+        if (this.isPending) {
+            return 'Pending';
+        }
+        if (this.isCanceled) {
+            return 'Canceled';
+        }
         return 'N/A'
     }
 
     get approvedBy() {
-        return this.instance?.approved_by?.email || 'N/A';
+        return this.instance?.reviewed_by?.email || 'N/A';
     }
 
     get approvedDate() {
-        return this.instance?.approved_on  ? this.datePipe.transform(this.instance?.approved_on, this.dateFormat) : 'N/A';
+        return this.instance?.reviewed_on  ? this.datePipe.transform(this.instance?.reviewed_on, this.dateFormat) : 'N/A';
     }
 
 }
