@@ -6,6 +6,7 @@ import {UtilsService} from '../../../services/utils/utils.service';
 import {Router} from '@angular/router';
 import {NotificationService} from '../../../services/notification/notification.service';
 import {CustomerService} from '../../../services/customer/customer.service';
+import * as Countries from '../../../../assets/json/en-countries.json';
 
 @Component({
   selector: 'app-customer-list',
@@ -18,10 +19,19 @@ export class CustomerListComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   pagination!: Paginations | null;
   isLoadingSearchResult: boolean = false;
+  isFiltering: boolean = false;
+  isMakingFilterRequest: boolean = false;
+  search: string = '';
+  age: number = 0;
+  dropdownList : any[] = [];
+  selectedItems: any[] = [];
+  dropdownSettings: any;
+
 
   constructor( private customerService: CustomerService, public utilsService: UtilsService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+
     this.dtOptions = {
       searching: false,
       ordering: false,
@@ -29,8 +39,19 @@ export class CustomerListComponent implements OnInit {
       info: false
     };
 
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      text:"Select countries",
+      selectAllText:'Select All',
+      unSelectAllText:'UnSelect All',
+      enableSearchFilter: true,
+    };
+
+
     this.customerService.sendRequest(this.buildRequestURL()).subscribe((result) => {
       this.seedTable(result);
+      this.dropdownList = this.formatCountryListInTable();
     });
   }
 
@@ -58,15 +79,54 @@ export class CustomerListComponent implements OnInit {
   }
 
 
+  clearFilter() {
+    this.selectedItems = [];
+    this.age = 0;
+    this.search = '';
+    this.isMakingFilterRequest = false;
+  }
+
+
+
   buildRequestURL( page: number = 1, params: string = '',) {
 
     let url = `${this.customerService.CUSTOMER_LIST_PAGINATION_URL}&page=${page}`;
+    this.isMakingFilterRequest = false;
+
+    if (this.search) {
+      this.isMakingFilterRequest = true;
+      url = `${url}&filter=${this.search}`
+    }
+
+    if (this.age) {
+      this.isMakingFilterRequest = true;
+      url = `${url}&less_than=${this.search}`
+    }
 
     if (params) {
+      this.isMakingFilterRequest = true;
       url = `${url}&${params}`
     }
 
+    if (this.selectedItems.length > 0) {
+      this.isMakingFilterRequest = true;
+      this.selectedItems.forEach((status: any) => {
+        url = `${url}&countries=${status.id.toLowerCase()}`
+      });
+    }
+
     return url;
+  }
+
+  formatCountryListInTable() {
+    let countries = [];
+    for (const [key, value] of Object.entries((Countries as any).countries)) {
+      countries.push({
+        id: key,
+        itemName: value
+      })
+    }
+     return countries;
   }
 
 }
