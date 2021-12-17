@@ -8,7 +8,9 @@
           <div class="page-breadcrumb">
             <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a routerLink="/dashboard/visas/overview" class="breadcrumb-link">Dashboard</a></li>
+                <li class="breadcrumb-item"><a [routerLink]="utilsService.isRouteActive('/dashboard/visas') ? '/dashboard/visas/overview' : '/visa-requests/overview'" class="breadcrumb-link">
+                  {{ utilsService.isRouteActive('/dashboard/visas') ? 'Dashboard' : 'Visa Requests' }}
+                </a></li>
                 <li class="breadcrumb-item active" aria-current="page">Visa Request Details</li>
               </ol>
             </nav>

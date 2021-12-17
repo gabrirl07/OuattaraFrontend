@@ -7,6 +7,7 @@ import {VISA_STATUS} from '../../../utils/constants';
 import {DatePipe} from '@angular/common';
 import {Observable} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UtilsService} from '../../../services/utils/utils.service';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class VisaDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    public  utilsService: UtilsService,
     private visaService: VisaService,
     private notificationService: NotificationService,
     private dateFormatter: DatePipe,

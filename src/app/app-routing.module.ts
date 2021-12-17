@@ -10,6 +10,8 @@ import {ResellersDetailsComponent} from './views/reseller/resellers-details/rese
 import {VisaListComponent} from './views/visa/visa-list/visa-list.component';
 import {CustomerListComponent} from './views/customer/customer-list/customer-list.component';
 import {TransactionListComponent} from './views/transactions/transaction-list/transaction-list.component';
+import {AgenciesListComponent} from './views/agencies/agencies-list/agencies-list.component';
+import {VisaRequestListComponent} from './views/visa-request/visa-request-list/visa-request-list.component';
 
 const routes: Routes = [
   {
@@ -37,6 +39,27 @@ const routes: Routes = [
       {
         path: 'overview',
         component: VisaOverviewComponent
+      },
+      {
+        path: ':id',
+        component: VisaDetailsComponent
+      },
+    ]
+  },
+  {
+    path: 'visa-requests',
+    data : {title : 'visa-requests'},
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    children:[
+      {
+        path: '',
+        redirectTo: 'overview',
+        pathMatch: 'full',
+      },
+      {
+        path: 'overview',
+        component: VisaRequestListComponent
       },
       {
         path: ':id',
@@ -77,6 +100,18 @@ const routes: Routes = [
       {
         path: '',
         component: TransactionListComponent
+      }
+    ]
+  },
+  {
+    path: 'agencies',
+    data : { title : 'agencies' },
+    canActivate: [AuthGuard],
+    component: DashboardComponent,
+    children:[
+      {
+        path: '',
+        component: AgenciesListComponent
       }
     ]
   },

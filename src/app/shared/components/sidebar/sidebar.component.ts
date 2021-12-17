@@ -8,12 +8,9 @@ import {CUSTOMERS_LINK, HOME_LINK, RESELLERS_LINK, TRANSACTIONS_LINK, VISA_REQUE
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent  {
 
   constructor(public utilsService: UtilsService, private router: Router) { }
-
-  ngOnInit(): void {
-  }
 
   goTo(page: string) {
     switch (page) {

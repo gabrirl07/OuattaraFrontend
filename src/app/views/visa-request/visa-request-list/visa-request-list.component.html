@@ -1,0 +1,105 @@
+<div class="dashboard-ecommerce dashboard-page-root">
+    <div class="container-fluid dashboard-content ">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">Visa Requests</h2>
+                    <p class="pageheader-text">Nulla euismod urna eros, sit amet scelerisque torton lectus vel mauris facilisis faucibus at enim quis massa lobortis rutrum.</p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="pendingRequest > 0" class="alert alert-primary d-flex align-items-center justify-content-between" role="alert">
+            <span>There are {{stats?.pending_visarequests }} new(s) request(s). </span>
+            <button (click)="showPendingRequest()" class="btn btn-primary btn-xs">See All</button>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-filter-box d-flex justify-content-between align-items-center">
+                            <button (click)="isFiltering = !isFiltering" data-toggle="collapse" data-target="#filterInputs" aria-expanded="false" aria-controls="filter-inputs" class="btn btn-primary btn-xs">{{ isFiltering ? 'Hide Filters' : 'More Filters' }}</button>
+                            <div class="table-filter-search">
+                                <input [disabled]="!visas" type="text" [(ngModel)]="search" (keyup.enter)="updatePagination(1)" placeholder="Search here" class="form-control">
+                                <button (click)="updatePagination(1)" [disabled]="isLoadingSearchResult" class="btn btn-primary btn-xs">Search</button>
+                            </div>
+                        </div>
+                        <div class="collapse" id="filterInputs">
+                            <div class="table-filter-inputs " [class.table-filter-inputs-disabled]="isLoadingSearchResult">
+                                <div class="form-group">
+                                    <label>Filter by</label>
+                                    <div>
+                                        <label class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" [(ngModel)]="filterParam.name" class="custom-control-input"><span class="custom-control-label">Custumer Name</span>
+                                        </label>
+                                        <label class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" [(ngModel)]="filterParam.date" class="custom-control-input"><span class="custom-control-label">Date</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings"></angular2-multiselect>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-light mr-2" (click)="clearFilter()">Clear the filter</button>
+                                    <button type="button" data-dismiss="modal" (click)="updatePagination(pagination?.currentPage)" class="btn btn-primary" >Apply</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="visas" class="table-responsive">
+                            <div *ngIf="isLoadingSearchResult" class="table-filter-loader">
+                                <span class="dashboard-spinner spinner-secondary spinner-xs"></span>
+                            </div>
+                            <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions">
+                                <thead>
+                                <tr>
+                                    <th>Picture</th>
+                                    <th>Costumer</th>
+                                    <th>Age</th>
+                                    <th>Reseller</th>
+                                    <th>Visa type</th>
+                                    <th>Created on</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let visa of visas | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }; let i = index;">
+                                    <td><img class="visa-profil" [src]="visa.picture" [alt]="visa.fullname"></td>
+                                    <td>{{visa.customerProfile}}</td>
+                                    <td>
+                                        <div *ngIf="visa.customerHasAge && !visa.customerIsOld" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                                            <span class="text-primary">{{visa.customerAge}}</span>
+                                        </div>
+                                        <div *ngIf="!visa.customerHasAge" style="padding: 6px;" class="float-right bg-primary-light mt-1">
+                                            <span class="text-primary">N/A</span>
+                                        </div>
+                                        <span *ngIf="visa.customerHasAge && visa.customerIsOld" >{{visa.customerAge}}</span>
+                                    </td>
+                                    <td>{{ visa.resellerProfile }}</td>
+                                    <td>{{ visa.visaTypeDuration }}</td>
+                                    <td>{{ visa.born }}</td>
+                                    <td>
+                                        <span *ngIf="visa.lastStatus" class="uk-label" [ngStyle]="{'background-color': visa.lastStatus.color }">
+                                          {{ visa.lastStatus.label }}
+                                        </span>
+                                                            <span *ngIf="!visa.lastStatus">
+                                          N/A
+                                        </span>
+                                                            <span *ngIf="visa.hasVisa" class="uk-label ml-2" [class.uk-label-warning]="!visa.isExpired()" [class.uk-label-danger]="visa.isExpired()"  >
+                                          {{ visa.visaStatus }}
+                                        </span>
+                                    </td>
+                                    <td><button (click)="showDetails(visa.instance.id)" class="btn btn-primary btn-xs">View</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="updatePagination($event)"></pagination-controls>
+                        </div>
+                        <div *ngIf="!visas" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

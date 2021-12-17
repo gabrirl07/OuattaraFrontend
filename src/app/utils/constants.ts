@@ -20,7 +20,7 @@ export const STATUS_URL = `${environment.BASE_API_URL}/v1/visastatus`;
 // Internal Links
 
 export const HOME_LINK = `/dashboard/visa-requests`;
-export const VISA_REQUESTS_LINK = `/dashboard/visa-requests`;
+export const VISA_REQUESTS_LINK = `/visa-requests`;
 export const RESELLERS_LINK = `/company/resellers`;
 export const CUSTOMERS_LINK = `/costumers`;
 export const TRANSACTIONS_LINK = `/transactions`;

@@ -21,7 +21,9 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { VisaListComponent } from './views/visa/visa-list/visa-list.component';
 import { CustomerListComponent } from './views/customer/customer-list/customer-list.component';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { TransactionListComponent } from './views/transactions/transaction-list/transaction-list.component'; // <-- import the module
+import { TransactionListComponent } from './views/transactions/transaction-list/transaction-list.component';
+import { AgenciesListComponent } from './views/agencies/agencies-list/agencies-list.component';
+import { VisaRequestListComponent } from './views/visa-request/visa-request-list/visa-request-list.component'; // <-- import the module
 
 
 registerLocaleData(localeFr);
@@ -38,6 +40,8 @@ registerLocaleData(localeFr);
     VisaListComponent,
     CustomerListComponent,
     TransactionListComponent,
+    AgenciesListComponent,
+    VisaRequestListComponent,
   ],
     imports: [
     BrowserModule,
