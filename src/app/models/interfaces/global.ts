@@ -12,7 +12,6 @@ export interface HttpPaginateResponse {
     items: any,
 }
 
-
 export interface GlobalStats {
     costumers: number,
     resellers: number,
@@ -23,4 +22,17 @@ export interface GlobalStats {
     visas: number,
 }
 
+export interface HandleErrorInfo {
+    type: HANDLE_ERROR_TYPE,
+    console: string,
+    popup: string,
+}
 
+export enum HANDLE_ERROR_TYPE {
+    WARNING,
+    ERROR
+}
+
+export interface ServerFile {
+    file: string
+}

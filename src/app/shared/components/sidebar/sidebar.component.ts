@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {UtilsService} from '../../../services/utils/utils.service';
 import {Router} from '@angular/router';
-import {CUSTOMERS_LINK, HOME_LINK, RESELLERS_LINK, TRANSACTIONS_LINK, VISA_REQUESTS_LINK, VISAS_LINK} from '../../../utils/constants';
+import {
+  COMPANIES_LINK,
+  CUSTOMERS_LINK,
+  HOME_LINK,
+  RESELLERS_LINK,
+  TRANSACTIONS_LINK,
+  VISA_REQUESTS_LINK,
+  VISAS_LINK
+} from '../../../utils/constants';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,6 +27,9 @@ export class SidebarComponent  {
         break;
       case 'reseller-list':
         this.router.navigate([RESELLERS_LINK]);
+        break;
+      case 'companies-list':
+        this.router.navigate([COMPANIES_LINK]);
         break;
       case 'transaction-list':
         this.router.navigate([TRANSACTIONS_LINK]);

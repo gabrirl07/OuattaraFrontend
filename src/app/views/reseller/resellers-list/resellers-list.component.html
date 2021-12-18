@@ -39,10 +39,10 @@
                                 </thead>
                                 <tbody>
                                 <tr *ngFor="let agent of agents | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" (click)="showDetails(agent.id)" style="cursor: pointer">
-                                    <td>{{ utilsService.preventNull(agent.firstname) }}</td>
-                                    <td>{{ utilsService.preventNull(agent.lastname) }}</td>
-                                    <td>{{ utilsService.preventNull(agent.code) }}</td>
-                                    <td>{{ utilsService.preventNull(agent.account.email) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.instance.firstname) }}</td>
+                                    <td>{{ utilsService.preventNull(agent.instance.lastname) }}</td>
+                                    <td>{{ agent.code }}</td>
+                                    <td>{{ agent.email }}</td>
                                 </tr>
                                 </tbody>
                             </table>

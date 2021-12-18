@@ -33,7 +33,4 @@ export class AgentsService extends BaseService {
     return this.httpClient.get<HttpPaginateResponse>(`${TRANSACTION_URL}/${transactionId}/documents`);
   }
 
-  requestResellers(url: string) {
-    return this.httpClient.get<any>(url);
-  }
 }

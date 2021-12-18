@@ -6,6 +6,7 @@ import {AgentsService} from '../../../services/agents/agents.service';
 import {Agent} from '../../../models/interfaces/agent';
 import {UtilsService} from '../../../services/utils/utils.service';
 import {Paginations} from '../../../models/classes/Paginations';
+import {Resellers} from '../../../models/classes/Resellers';
 
 @Component({
   selector: 'app-resellers-list',
@@ -14,7 +15,7 @@ import {Paginations} from '../../../models/classes/Paginations';
 })
 export class ResellersListComponent implements OnInit {
 
-  agents!: Agent[] | null;
+  agents!: Resellers[] | null;
   dtOptions: DataTables.Settings = {};
   stats: any;
   pagination!: Paginations | null;
@@ -33,7 +34,7 @@ export class ResellersListComponent implements OnInit {
       info: false
     };
 
-    this.resellerService.requestResellers(this.buildRequestURL()).subscribe((result) => {
+    this.resellerService.sendRequest(this.buildRequestURL()).subscribe((result) => {
       this.seedTable(result);
     });
   }
@@ -43,7 +44,7 @@ export class ResellersListComponent implements OnInit {
   }
 
   updatePagination(page: any) {
-    this.resellerService.requestResellers(this.buildRequestURL('', page)).subscribe((result) => {
+    this.resellerService.sendRequest(this.buildRequestURL('', page)).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
@@ -52,7 +53,7 @@ export class ResellersListComponent implements OnInit {
   }
 
   updateTable(url : string) {
-    this.resellerService.requestResellers(url).subscribe((result) => {
+    this.resellerService.sendRequest(url).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
@@ -62,7 +63,7 @@ export class ResellersListComponent implements OnInit {
 
 
   seedTable(data: HttpPaginateResponse) {
-    this.agents = data.items;
+    this.agents = data.items.map((item: Agent) => new Resellers(item));
     this.pagination = new Paginations(data._links);
     this.isLoadingSearchResult = false;
   }

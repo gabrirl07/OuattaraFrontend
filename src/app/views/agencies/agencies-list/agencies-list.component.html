@@ -1,1 +1,53 @@
-<p>agencies-list works!</p>
+<div class="dashboard-ecommerce dashboard-page-root">
+    <div class="container-fluid dashboard-content ">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="page-header">
+                    <h2 class="pageheader-title">Agences</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="card">
+                    <h5 class="card-header">Agences list</h5>
+                    <div class="card-body">
+                        <div class="table-filter">
+                            <div class="table-filter-search">
+                                <input [disabled]="!companies" type="text" [(ngModel)]="search" class="form-control" placeholder="Search here">
+                                <button (click)="updatePagination(1)" [disabled]="isLoadingSearchResult"  class="btn btn-primary btn-xs">Search</button>
+                            </div>
+                        </div>
+                        <div *ngIf="companies" class="table-responsive">
+                            <div *ngIf="isLoadingSearchResult" class="table-filter-loader">
+                                <span class="dashboard-spinner spinner-secondary spinner-xs"></span>
+                            </div>
+                            <table class="table table-striped table-bordered first" datatable [dtOptions]="dtOptions">
+                                <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Email</th>
+                                    <th>Website</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor="let agence of companies | paginate: { itemsPerPage: 10, currentPage: pagination?.currentPage, totalItems: pagination?.total }" (click)="showDetails(agence.id)" style="cursor: pointer">
+                                    <td><img class="visa-profil" [src]="agence.picture" [alt]="agence.name"></td>
+                                    <td>{{ agence.name }}</td>
+                                    <td>{{ agence.phoneNumer }}</td>
+                                    <td>{{ agence.email }}</td>
+                                    <td>{{ agence.website }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="updatePagination($event)"></pagination-controls>
+                        </div>
+                        <div *ngIf="!companies" class="table-loader"><span class="dashboard-spinner spinner-secondary spinner-xs"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

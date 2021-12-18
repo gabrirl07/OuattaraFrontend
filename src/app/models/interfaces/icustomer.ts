@@ -1,3 +1,5 @@
+import {ServerFile} from './global';
+
 export interface ICustomer {
     id: string,
     firstname: string,
@@ -15,9 +17,7 @@ export interface ICustomer {
     birth_country: string,
     present_nationality: string,
     religion: string,
-    picture: {
-        file: string
-    },
+    picture: ServerFile,
     age: number,
     reseller: any,
     language: string

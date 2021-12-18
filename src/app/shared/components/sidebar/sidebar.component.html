@@ -11,7 +11,7 @@
             Menu
           </li>
           <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" (click)="goTo('dashboard')"><i class="fa fa-fw fa-user-circle"></i>Dashboard <span class="badge badge-success">6</span></a>
+            <a class="nav-link" routerLinkActive="active" (click)="goTo('dashboard')"><i class="fa fa-fw fa-user-circle"></i>Dashboard</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" aria-expanded="false" data-target="#visas-submenu" aria-controls="visas-submenu"><i class="fa fa-fw fa-rocket"></i>Visas</a>
@@ -34,7 +34,7 @@
             <div id="company-submenu" class="collapse submenu" [class.show]="utilsService.isRouteActive('/company', false)">
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link"  >List </a>
+                  <a class="nav-link" (click)="goTo('companies-list')" >List </a>
                 </li>
                 <li class="nav-item" >
                   <a class="nav-link" routerLinkActive="active" (click)="goTo('reseller-list')">Resellers</a>

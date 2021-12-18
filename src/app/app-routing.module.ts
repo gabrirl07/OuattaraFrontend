@@ -116,7 +116,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'company/resellers',
+    path: 'company',
     data : {title : 'company'},
     canActivate: [AuthGuard],
     component: DashboardComponent,
@@ -128,11 +128,26 @@ const routes: Routes = [
       },
       {
         path: 'overview',
-        component: ResellersListComponent
+        component: AgenciesListComponent
       },
       {
-        path: ':id',
-        component: ResellersDetailsComponent
+        path: 'resellers',
+        data : {title : 'resellers'},
+        children:[
+          {
+            path: '',
+            redirectTo: 'overview',
+            pathMatch: 'full',
+          },
+          {
+            path: 'overview',
+            component: ResellersListComponent
+          },
+          {
+            path: ':id',
+            component: ResellersDetailsComponent
+          },
+        ]
       },
     ]
   },

@@ -10,6 +10,10 @@ export class Resellers extends ClassUtils {
         this.instance = data;
     }
 
+    get id() {
+        return this.instance.id
+    }
+
     get fullName() {
         return this.instance.firstname + ' ' + this.instance.lastname;
     }

@@ -90,7 +90,7 @@ export class ResellersDetailsComponent implements OnInit {
   }
 
   updatePagination(page: any) {
-    this.agentService.requestResellers(this.buildRequestURL('', page)).subscribe((result) => {
+    this.agentService.sendRequest(this.buildRequestURL('', page)).subscribe((result) => {
       this.seedTable(result);
     }, () => {
       this.notificationService.error();
