@@ -1,12 +1,12 @@
 {
   "/api/*": {
-    "target": "http://dubaievisa.bssi.ca:8180",
+    "target": "https://evisa.bssi.ca/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/oauth/*": {
-    "target": "http://dubaievisa.bssi.ca:8180",
+    "target": "https://evisa.bssi.ca/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

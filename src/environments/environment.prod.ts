@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
   encryptPassword: 'ouattara-encrypt',
-  BASE_URL: 'http://dubaievisa.bssi.ca:8180',
-  BASE_API_URL: `http://dubaievisa.bssi.ca:8180/api`,
-  client_id: "1_qd10xlcxirk4wcgsskg8c8gogw4so8okgw4kcs8kc44go0gos",
-  client_secret: "268nzzcgm2n4kk8sscg4gskk0wws0g0gs4s0sgkogss0sg4gc8",
-  grant_type: "password",
+  BASE_URL: 'https://dubaievisa.bssi.ca',
+  BASE_API_URL: `https://evisa.bssi.ca`,
+  client_id : "1_ktd97my6hxsc8kswo00cscwsw80ck88g0gsg4w048osgwo4go",
+  client_secret : "5y0q8x0vls4kscwk48ckgk8gc80s4wo0ok0o4g48cc4wgg0osw",
+  grant_type : "password",
 };

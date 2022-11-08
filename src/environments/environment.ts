@@ -7,8 +7,8 @@ export const environment = {
   encryptPassword: 'ouattara-encrypt',
   BASE_URL: '',
   BASE_API_URL: '/api',
-  client_id: "1_qd10xlcxirk4wcgsskg8c8gogw4so8okgw4kcs8kc44go0gos",
-  client_secret: "268nzzcgm2n4kk8sscg4gskk0wws0g0gs4s0sgkogss0sg4gc8",
+  client_id: "1_25rl2i08ueiskwckcg08s8ock8o08ww08occcg4s8k0soc4sco",
+  client_secret: "2him7ohltiyow0cwswkw8g4ckgg4sgwwo8sw844co48g8owggk",
   grant_type: "password",
 };
 
